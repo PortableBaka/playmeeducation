@@ -1,4 +1,3 @@
-import { t } from "i18next";
 import { AiOutlineHome } from "react-icons/ai";
 import { CgLogOut } from "react-icons/cg";
 import { TbPencilMinus } from "react-icons/tb";
