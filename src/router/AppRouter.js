@@ -1,40 +1,34 @@
-import { Routes } from "react-router-dom";
-import { Route } from "react-router-dom";
-import { getAuthenticatedUser } from "../store/authUser";
+import { Route, Routes } from "react-router-dom";
 import { UserType } from "../config";
-import LoginPage from "../pages/login";
+import KindergartenBranchAdminLayout from "../layout/BranchAdminLayout";
+import KindergartenAdminLayout from "../layout/KindergartenAdminLayout";
+import SuperAdminPageLayout from "../layout/SuperAdminPageLayout";
 import BasicPage from "../pages/basicPage";
+import EmployeeCreate from "../pages/employee/createEmployee";
+import EditEmployee from "../pages/employee/editEmployee";
+import EmployeeMain from "../pages/employee/employeeMain";
+import CreateGroup from "../pages/groups/CreateGroup";
+import EditGroup from "../pages/groups/EditGroup";
+import GroupMain from "../pages/groups/GroupsMain";
 import CreateKindergarten from "../pages/kindergarten/createKindergarten";
 import UpdateKindergarten from "../pages/kindergarten/updateKindergarten";
-import SuperAdminPageLayout from "../layout/SuperAdminPageLayout";
-import KindergartenAdminLayout from "../layout/KindergartenAdminLayout";
 import KindergartensAdminMainPage from "../pages/kindergartenAdminMainPage";
-import LibraryMainPage from "../pages/library/LibraryMain";
-import CreateLibrary from "../pages/library/CreateLibrary";
-import StudentsMain from "../pages/students/studentsMain";
-<<<<<<< HEAD
-// import Timetable from "../pages/timetable/timetableMain";
-=======
-import Timetable from "../pages/timetable/timetableMain";
->>>>>>> 71f0a63887c5e6fd5a7f80d10296c28462c56803
-import StudentsCreate from "../pages/students/createStudent";
-import GroupMain from "../pages/groups/GroupsMain";
-import EditGroup from "../pages/groups/EditGroup";
-import CreateGroup from "../pages/groups/CreateGroup";
+import EditKindergartenAndBranchData from "../pages/kindergartenAdminMainPage/editBranch";
 import LeadsMainPage from "../pages/leadsPage/MainPage";
 import CreateLeads from "../pages/leadsPage/createLead";
 import EditLeads from "../pages/leadsPage/editLeads";
+import CreateLibrary from "../pages/library/CreateLibrary";
 import EditLibrary from "../pages/library/EditLibrary";
-import EditKindergartenAndBranchData from "../pages/kindergartenAdminMainPage/editBranch";
-import EmployeeMain from "../pages/employee/employeeMain";
-import EmployeeCreate from "../pages/employee/createEmployee";
+import LibraryMainPage from "../pages/library/LibraryMain";
+import LoginPage from "../pages/login";
+import StudentsCreate from "../pages/students/createStudent";
 import StudentsEdit from "../pages/students/editStudent";
-import EditEmployee from "../pages/employee/editEmployee";
-import TransactionMain from "../pages/transactions/transactionsMain";
-import TransactionEdit from "../pages/transactions/edittTansaction";
+import StudentsMain from "../pages/students/studentsMain";
+import Timetable from "../pages/timetable/timetableMain";
 import TransactionCreate from "../pages/transactions/createTransaction";
-import KindergartenBranchAdminLayout from "../layout/BranchAdminLayout";
-import TimeTable from "../pages/timetable/timeTablePage";
+import TransactionEdit from "../pages/transactions/edittTansaction";
+import TransactionMain from "../pages/transactions/transactionsMain";
+import { getAuthenticatedUser } from "../store/authUser";
 
 export const AppRouter = () => {
   const { user, isAuthenticated } = getAuthenticatedUser();
@@ -70,11 +64,7 @@ export const AppRouter = () => {
               element={<KindergartensAdminMainPage />}
             />
             <Route path="libraryMainPage" element={<LibraryMainPage />} />
-<<<<<<< HEAD
-            <Route path="timetable" element={<TimeTable />} />
-=======
             <Route path='timetable' element={<Timetable/>}/>
->>>>>>> 71f0a63887c5e6fd5a7f80d10296c28462c56803
             <Route path="students" element={<StudentsMain />} />
             <Route path="groups" element={<GroupMain />} />
             <Route path="leads" element={<LeadsMainPage />} />
@@ -121,11 +111,7 @@ export const AppRouter = () => {
             element={<KindergartenBranchAdminLayout />}
           >
             <Route path="libraryMainPage" exact element={<LibraryMainPage />} />
-<<<<<<< HEAD
-            <Route path="timetable" element={<TimeTable />} />
-=======
             <Route path="timetable" element={<Timetable />} />
->>>>>>> 71f0a63887c5e6fd5a7f80d10296c28462c56803
             <Route path="students" element={<StudentsMain />} />
             <Route path="groups" element={<GroupMain />} />
             <Route path="leads" element={<LeadsMainPage />} />
