@@ -1,0 +1,280 @@
+@import '../../../styles/_typography'
+@import '../../../styles/_variables'
+
+.createKindergarten
+    width: 100%
+    height: 100%
+    display: flex
+    flex-direction: column
+    justify-content: center
+    align-items: flex-start
+    position: relative
+    padding-bottom: 65px
+    .createKindergarten_header
+        position: fixed
+        top: 0
+        left: 0
+        height: 64px
+        width: 100%
+        display: flex
+        justify-content: center
+        align-items: center
+        background: #fff
+        border-bottom: 1px solid #F0F0F0
+        .createKindergarten_header_wrapper
+            padding: 16px 0
+            width: 600px
+            margin: 0 auto
+            display: flex
+            justify-content: space-between
+            align-items: center
+            .createKindergarten_header_title
+                color: #000
+                display: flex
+                gap: 8px
+                align-items: center
+                h3
+                    +typography(16px, 600, map-get($basic, 'black'))
+                    color: #000
+                    padding-top: 3px
+                .exit
+                    display: flex
+                    justify-content: center
+                    align-items: center
+                    svg
+                        width: 24px
+                        height: 24px
+                        fill: #00000073
+            .createKindergarten_header_save
+                display: flex
+                .deleteFillial
+                    display: flex
+                    justify-content: center
+                    align-items: center
+                    margin-right: 10px
+                    padding: 8px
+                    border-radius: 6px
+                    border: 1px solid #e82828
+                    background: #ffffff
+                    cursor: pointer
+                    svg
+                        width: 16px
+                        height: 16px
+                        fill: #e82828
+                .save
+                    padding: 6px 16px
+                    border-radius: 6px
+                    border: 1px solid #00000026
+                    background: #1677FF
+                    cursor: pointer
+                    +typography(14px, 500, #ffffff)
+                    transition: background 0.3s
+                    &:hover
+                        background: #1467dc
+                .deactivate
+                    padding: 6px 16px
+                    border-radius: 6px
+                    border: 1px solid #00000026
+                    background: #ffffff
+                    cursor: pointer
+                    +typography(14px, 500, #000000)
+                    transition: background 0.3s
+                    margin-right: 10px
+                    &:hover
+                        background: #F0F0F0
+    .createKindergarten_content
+        margin-top: 64px
+        width: 600px
+        margin: 64px auto 0
+        form
+            display: flex
+            flex-direction: column
+            justify-content: flex-start
+            align-items: flex-start
+            label
+                margin-top: 20px
+                margin-bottom: 8px
+                +typography(14px, 500, #000000E0)
+                span
+                    color: #00000040
+            input
+                width: 100%
+                border-radius: 6px
+                padding: 0 12px
+                height: 40px
+                border: 1px solid #00000040
+                +typography(16px, 500, map-get($basic, 'black'))
+                // placeholder
+                &::placeholder
+                    color: #00000040
+            .formParagraph
+                margin-top: 5px
+                +typography(14px, 500, #00000073)
+                letter-spacing: 0.1px
+            button
+                margin-top: 20px
+                width: 100%
+                height: 35px
+                border-radius: 6px
+                background: #1677FF
+                color: #fff
+                border: none
+                cursor: pointer
+                +typography(14px, 500, #fff)
+                transition: background 0.3s
+                &:hover
+                    background: #1467dc
+            .kindergartenForm_phone
+                display: flex
+                justify-content: flex-start
+                align-items: center
+                width: 100%
+                .prePhone
+                    display: flex
+                    justify-content: center
+                    align-items: center
+                    height: 40px
+                    padding: 0 12px
+                    border-radius: 6px 0 0 6px
+                    border: 1px solid #00000026
+                    +typography(16px, 600, map-get($basic, 'black'))
+                    line-height: 24px
+                input
+                    border-radius: 0 6px 6px 0
+                    border-left: none
+
+        .kindergartenBranch
+            display: flex
+            flex-direction: column
+            margin-top: 40px
+            width: 100%
+            .kindergartenBranchTitle
+                display: flex
+                justify-content: space-between
+                align-items: center
+                margin-bottom: 27px
+                h3
+                    +typography(30px, 600, map-get($basic, 'black'))
+                .kindergartenBranchTitle_add
+                    display: flex
+                    gap: 8px
+                    cursor: pointer
+                    padding: 10px 16px
+                    border: 1px solid #00000026
+                    border-radius: 6px
+                    svg
+                        width: 12px
+                        height: 12px
+                    p
+                        +typography(14px, 500, map-get($basic, 'black'))
+                .kindergartenBranchTitle_add:hover
+                    background: #F0F0F0
+
+            .kindergartenBranchContent
+                display: flex
+                margin-bottom: 20px
+                flex-direction: column
+                padding: 25px
+                border: 1px solid #00000026
+                border-radius: 16px
+                .kindergartenBranchContentTitle
+                    display: flex
+                    align-items: center
+                    justify-content: space-between
+                    h3
+                        +typography(20px, 600, map-get($basic, 'black'))
+                    p
+                        +typography(14px, 500, #000000A6)
+                    .deleteBranch
+                        display: flex
+                        justify-content: center
+                        align-items: center
+                        gap: 8px
+                        cursor: pointer
+                        padding: 10px 16px
+                        background: #ffffff
+                        border: 1px solid #e82828
+                        border-radius: 6px
+                        transition: 0.3s
+                        svg
+                            width: 12px
+                            height: 12px
+                            fill: #e82828
+                        p
+                            +typography(12px, 500, 'red')
+                            color: #e82828
+                        &:hover
+                            background: #e82828
+
+                            p
+                                color: #fff
+                            svg
+                                fill: #fff
+
+                            
+
+.info
+    width: 100%
+    padding: 11px 16px
+    border: 1px solid #91CAFF
+    background: #E6F4FF
+    border-radius: 6px
+    display: flex
+    align-items: center
+    margin-top: 20px
+    gap: 10px
+    svg
+        min-width: 20px
+        height: 20px
+        fill: #1677FF
+    p
+        +typography(14px, 500, #000000)
+        line-height: 22px
+
+.exitModal
+    padding: 24px 24px 20px
+    border-radius: 8px
+    display: flex
+    align-items: flex-start
+    gap: 11px
+    .exitModalWarningIcon
+        svg
+            width: 24px
+            height: 24px
+            fill: #FAAD14
+    .exitModalWarningText
+        h3
+            +typography(16px, 600, map-get($basic, 'black'))
+            margin-bottom: 8px
+            margin-bottom: 8px
+        p
+            +typography(14px, 500, #00000073)
+            margin-bottom: 20px
+    .modalActions
+        display: flex
+        justify-content: flex-end
+        gap: 10px
+        button
+            padding: 6px 16px
+            border-radius: 6px
+            border: 1px solid #00000026
+            background: #ffffff
+            cursor: pointer
+            +typography(14px, 500, #000000)
+            transition: background 0.3s
+            &:hover
+                background: #F0F0F0
+        .exitBtn
+            background: #1677FF
+            color: #fff
+            &:hover
+                background: #1057ba
+                color: #fff
+        
+        
+.btnGroup
+    button
+        display: flex
+        justify-content: center
+        align-items: center
+        padding-bottom: 7px

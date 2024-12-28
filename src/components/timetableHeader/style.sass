@@ -1,0 +1,51 @@
+@import '../../styles/_typography'
+@import '../../styles/_variables'
+.timetableHeader
+    width: 100%
+    display: flex
+    justify-content: space-between
+    align-items: center
+    .timetableHeaderMonth
+        display: flex
+        align-items: center
+        justify-content: center
+        gap: 16px
+        .timetableHeaderMonthTitle
+            +typography(30px, 600, black)
+        .timetableHeaderMonthArrows
+            display: flex
+            justify-content: center
+            align-items: center
+            gap: 8px
+            .timetableHeaderMonthArrowLeft, .timetableHeaderMonthArrowRight
+                width: 32px
+                height: 32px
+                border-radius: 6px
+                border: 1px solid #00000026
+                display: flex
+                justify-content: center
+                align-items: center
+                &:hover
+                    background-color: #00000011
+                    cursor: pointer
+    .timetableHeaderActions
+        display: flex
+        justify-content: center
+        align-items: center
+        gap: 16px
+        button
+            border: 1px solid #00000026
+            background: #fff
+            padding: 5px 16px
+            border-radius: 6px
+            display: flex
+            justify-content: center
+            align-items: center
+            gap: 5px
+            +typography(14px, 500, black)
+            &:hover
+                background-color: #00000011
+                cursor: pointer
+
+
+

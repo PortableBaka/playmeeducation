@@ -1,0 +1,80 @@
+@import '../../styles/_typography'
+@import '../../styles/_variables'
+
+.mainMenuContainer
+    height: 100%
+    display: flex
+    flex-direction: column
+    justify-content: space-between
+    padding-bottom: 15px
+    .logoContainer
+        height: 64px
+        display: flex
+        justify-content: center
+        align-items: center
+        border-bottom: 1px solid #0000000F
+        padding: 0 16px
+        .logo
+            width: 100%
+            height: 32px
+            background-size: contain
+            background: #000
+
+    .menuList
+        width: 100%
+        display: flex
+        flex-direction: column
+        justify-content: center
+        align-items: flex-start
+        .menuItem
+            width: 100%
+            height: 40px
+            display: flex
+            justify-content: center
+            align-items: center
+            cursor: pointer
+            .menuLink
+                +typography(14px, 500, map-get($basic, 'black'))
+                display: flex
+                justify-content: flex-start
+                align-items: center
+                width: 100%
+                height: 100%
+                text-decoration: none
+                color: #000
+                padding-left: 24px
+                gap: 8px
+                img
+                    width: 14px
+                    height: 14px
+                    background-size: contain
+                span
+                    padding-top: 3px
+                    color: #000   
+                .rightArrow::before
+                    content: ''
+                    display: inline-block
+                    width: 0
+                    height: 0
+                    border-top: 4px solid transparent
+                    border-bottom: 4px solid transparent
+                    border-left: 6px solid #000                    
+            &:hover
+                background: #E6F4FF
+                img 
+                    filter: invert(31%) sepia(93%) saturate(2545%) hue-rotate(192deg) brightness(95%) contrast(95%)
+                span
+                    padding-top: 3px
+                    color: #1677FF
+                .rightArrow::before
+                    border-left: 6px solid #1677FF
+
+            .menuLink.exit
+                color: #F5222D
+                &:hover
+                    background: #FFF1F0
+                    img 
+                        filter: invert(38%) sepia(95%) saturate(2864%) hue-rotate(339deg) brightness(95%) contrast(90%)
+                    span
+                        padding-top: 3px
+                        color: #F5222D

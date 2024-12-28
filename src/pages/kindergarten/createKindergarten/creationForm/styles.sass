@@ -1,0 +1,22 @@
+@import '../../../../styles/_typography'
+@import '../../../../styles/_variables'
+.kinderGartenForm
+    display: flex
+    flex-direction: column
+    row-gap: 20px
+    .inputBox
+        display: flex
+        flex-direction: column
+        row-gap: 8px
+        .label
+            line-height: 22px
+            letter-spacing: -0.28px
+            +typography(14px, 500, map-get($basic, 'black'))
+        .input
+            line-height: 24px
+            letter-spacing: -0.32px
+            +typography(16px, 500, #000000E0)
+        .inputErrorMessage
+            +typography(14px, 500, #FF4D4F)
+            line-height: 22px
+            letter-spacing: -0.28px

@@ -1,0 +1,194 @@
+@import '../../../styles/_typography'
+@import '../../../styles/_variables'
+.timetableMainPageContentContainer
+  width: 100%
+  display: flex
+  flex-direction: row
+  row-gap: 15px
+  .timetableSchedule
+    width: 100%
+    height: 100%
+    display: flex
+    justify-content: center
+    align-items: center
+    gap: 25px
+    flex-direction: column
+    .timetableScheduleTable
+      width: 100%
+      height: 100%
+      border: 1px solid #00000026
+      border-radius: 16px
+      overflow: auto
+      &::-webkit-scrollbar
+        width: 0px
+      &::-webkit-scrollbar-thumb
+        background-color: #00000026
+        border-radius: 8px
+      &::-webkit-scrollbar-track
+        background-color: #fff
+      .tableScheduleWrapperHeader
+        width: 100%
+        display: flex
+        .tableScheduleHeaderItem
+          flex: 1
+          border-right: 1px solid #00000026
+          border-bottom: 1px solid #00000026
+          padding: 10px
+          border-top: none
+          display: flex
+          justify-content: center
+          align-items: center
+          flex-direction: column
+          &:first-child
+            border-left: none
+            border-right: none
+            flex: 0.3
+          &:last-child
+            border-right: none
+          .tableScheduleHeaderItemTitle
+            +typography(20px, 600, black)
+      .tableScheduleWrapperBody
+        width: 100%
+        display: flex
+        justify-content: center
+        .tableScheduleBodyItem
+          flex: 1
+          border-right: 1px solid #00000026
+          border-bottom: 1px solid #00000026
+          padding: 10px
+          border-top: none
+          border-bottom: none
+          display: flex
+          justify-content: center
+          align-items: center
+          flex-direction: column
+          &:first-child
+            border-left: none
+            border-right: none
+            align-items: flex-start
+            flex: 0.3
+          &:last-child
+            border-right: none
+          .timeZone
+            +typography(14px, 500, #00000073)
+            margin-bottom: 70px
+
+          .tableScheduleBodyItemTitle
+            +typography(20px, 500, black)
+
+  .timetableScheduleActions
+    min-width: 440px
+    padding: 0 0 0 25px
+    display: flex
+    flex-direction: column
+    gap: 24px
+    .timetableScheduleActionsHeader
+      display: flex
+      justify-content: space-between
+      align-items: center
+      padding-top: 2px
+      .timetableScheduleActionsHeaderTitle
+        +typography(20px, 600, black)
+      .timetableScheduleActionsHeaderRemove
+        border: 1px solid #FF4D4F
+        border-radius: 6px
+        padding: 10px
+        display: flex
+        justify-content: center
+        align-items: center
+        gap: 5px
+        width: 32px
+        height: 32px
+        svg
+          width: 18px
+          height: 18px
+          fill: #FF4D4F
+        &:hover
+          background-color: #FF4D4F11
+          cursor: pointer
+          svg
+            fill: #FF4D4F
+    .timetableScheduleActionsBody
+      display: flex
+      flex-direction: column
+      width: 100%
+      gap: 24px
+      .notfyWrapper
+        width: 100%
+        padding: 8px 12px
+        border-radius: 8px
+        gap: 12px
+        display: flex
+        justify-content: space-between
+        align-items: center
+        border: 1px solid #91CAFF
+        background: #E6F4FF
+        svg
+          min-width: 16px
+          min-height: 16px
+          fill: #1677FF
+        p
+          +typography(14px, 500, #000000E0)
+          margin: 0
+      form
+        display: flex
+        flex-direction: column
+        gap: 20px
+        .formItem
+          display: flex
+          flex-direction: column
+          gap: 8px
+
+        select
+          width: 100%
+          padding: 8px
+          height: 40px
+          border: 1px solid #00000026
+          border-radius: 6px
+          +typography(14px, 500, #000000)
+          &:focus
+            outline: none
+          option
+            +typography(14px, 500, #000000)
+
+        input
+          width: 100%
+          padding: 8px
+          height: 40px
+          border: 1px solid #00000026
+          border-radius: 6px
+          +typography(14px, 500, #000000)
+
+        .dateAndTime
+          display: flex
+          width: 100%
+          gap: 20px
+          .dateAndTimeItem
+            display: flex
+            flex-direction: column
+            gap: 8px
+            width: 100%
+            label
+              +typography(14px, 500, #000000)
+
+        .formActions
+          width: 100%
+          display: flex
+          justify-content: space-between
+          gap: 16px
+          button
+            width: 100%
+            padding: 8px
+            border-radius: 8px
+            border: 1px solid #00000026
+            background: #fff
+            transition: background 0.3s
+            cursor: pointer
+            +typography(14px, 500, #000000)
+            &:hover
+              background: #00000011
+            &:last-child
+              background: #1677FF
+              color: #fff
+              &:hover
+                background: #0c5bca

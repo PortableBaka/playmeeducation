@@ -1,0 +1,95 @@
+@import '../../styles/_typography'
+@import '../../styles/_variables'
+.kindergartensAdminMainPage
+    display: flex
+    flex-direction: column
+    .header
+        width: 100%
+        display: flex
+        justify-content: center
+        border-bottom: 1px solid rgba(0, 0, 0, 0.06)
+        padding: 16px 0
+        position: fixed
+        top: 0
+        background: map-get($basic, 'white')
+        z-index: 2
+    .container
+        padding: 0
+        display: flex
+        justify-content: center
+        align-items: center
+        flex-direction: column
+        .kindergartenContainer
+            padding: 0
+            .adminBranchTitle
+                padding-bottom: 32px
+                .title
+                    +typography(30px, 600, map-get($basic, 'black'))
+                    line-height: 38px
+                    letter-spacing: -0.9px
+            .adminPageInfoBlock
+                display: flex
+                flex-direction: column
+                row-gap: 32px
+                .ant-card-head-title
+                    +typography(16px, 600, map-get($basic, 'black'))
+                    line-height: 24px
+                    letter-spacing: -0.9px
+                .adminInfo
+                    display: flex
+                    flex-direction: row
+                    column-gap: 32px
+                .cardBoxInfo
+                    display: flex
+                    justify-content: space-between
+                    .cardBox
+                        display: flex
+                        flex-direction: column
+                        row-gap: 4px
+                        .cartSubtitle
+                            .subtitle
+                                +typography(14px, 500, #00000073)
+                                line-height: 22px
+                                letter-spacing: -0.9px
+                        .cardTitle
+                            .title
+                                +typography(24px, 600, map-get($basic, 'black'))
+                                line-height: 32px
+                                letter-spacing: -0.9px
+        .branchContainer
+            display: flex
+            width: 100%
+            justify-content: center
+            flex-direction: column
+            .branchHeader
+                display: flex
+                width: 100%
+                justify-content: space-between
+                align-items: center
+                padding: 24px 0
+                .headerBtn
+                    .btn
+                        +typography(14px, 500, map-get($basic, 'black'))
+                        line-height: 22px
+                        letter-spacing: -0.28px
+            .branch
+                width: 100%
+    .headerBox
+        display: flex
+        align-items: center
+        justify-content: space-between
+        .headerTitle
+            display: flex
+            align-items: center
+            flex-direction: row
+            column-gap: 8px
+            .title
+                +typography(16px, 600, map-get($basic, 'black'))
+                line-height: 24px
+                letter-spacing: -0.32px
+            .closePage
+                display: flex
+                cursor: pointer
+                svg
+                    color: #00000073
+                    font-size: 20px

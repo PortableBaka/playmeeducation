@@ -1,0 +1,35 @@
+@import '../../styles/_typography'
+@import '../../styles/_variables'
+.basicPageLayout
+    padding: 0
+    height: 100vh
+    .basicPageAside
+        .ant-layout-sider-children
+            display: flex
+            justify-content: space-between
+            flex-direction: column
+            .ant-menu
+                display: flex
+                flex-direction: column
+                align-items: flex-end
+                justify-content: flex-end
+                .ant-menu-title-content
+                    +typography(14px, 500, map-get($basic, 'blakc'))
+                    line-height: 22px
+                    letter-spacing: -0.28px
+    .content
+        padding: 40px 0
+        .contentContainer
+            max-width: 850px
+            width: 100%
+            display: flex
+            flex-direction: column
+            row-gap: 32px
+
+            .contentBody
+                display: flex
+                flex-direction: column
+                row-gap: 32px
+                .searchIcon
+                    svg
+                        color: #00000073

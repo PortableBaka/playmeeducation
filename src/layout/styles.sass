@@ -1,0 +1,78 @@
+@import '../styles/_typography'
+@import '../styles/_variables'
+.basicPageLayout
+    .langText
+        +typography(14px, 500, map-get($basic, 'blakc'))
+    .ant-select
+        margin: 4px !important
+        max-width: 190px
+        width: 100%
+        max-height: 40px
+        height: 100%
+    .ant-menu-title-content
+        +typography(14px, 500, map-get($basic, 'blakc'))
+        line-height: 130% !important
+    .ant-select-selector
+        border: none !important
+        padding: 8px 16px !important
+        &:hover
+            background: #e6f4ff
+.kinderGartenAdminLayout
+    padding: 0
+    height: 100vh
+    .additionalMenu
+        .additionalMenuItem
+            &:hover
+                color: map-get($main, 'blue') !important
+                background: #E6F4FF !important
+            .ant-menu-title-content
+                margin-left: 24px
+                display: flex
+                column-gap: 8px
+    .menuItems
+        .menuItemsLinks
+            column-gap: 8px
+            padding-left: 10px !important
+            &:hover
+                color: map-get($main, 'blue') !important
+                background: #E6F4FF !important
+            .ant-menu-title-content
+                display: flex
+    .kindergartenPageAside
+        .ant-layout-sider-children
+            display: flex
+            justify-content: space-between
+            flex-direction: column
+            .ant-menu
+                display: flex
+                flex-direction: column
+                align-items: start
+                justify-content: space-between
+                height: 100%
+                .additionalLinks
+                    height: 100%
+                    width: 100%
+                .ant-menu-title-content
+                    +typography(14px, 500, map-get($basic, 'blakc'))
+                    line-height: 22px
+                    letter-spacing: -0.28px
+    .langText
+        +typography(14px, 500, map-get($basic, 'blakc'))
+    .ant-select
+        margin: 4px !important
+        max-width: 190px
+        width: 100%
+        max-height: 40px
+        height: 100%
+    .ant-menu-title-content
+        +typography(14px, 500, map-get($basic, 'blakc'))
+        line-height: 130% !important
+    .ant-select-selector
+        border: none !important
+        padding: 8px 10px !important
+        .ant-select-selection-item
+            display: flex !important
+            align-items: center !important
+            column-gap: 15px
+        &:hover
+            background: #e6f4ff

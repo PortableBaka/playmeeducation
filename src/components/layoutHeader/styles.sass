@@ -1,0 +1,11 @@
+@import '../../styles/_typography'
+@import '../../styles/_variables'
+.contentHeading
+    display: flex
+    align-items: center
+    justify-content: space-between
+    .headingTitle
+        .title
+            +typography(30px, 600, map-get($basic, 'black'))
+            .titleCount
+                +typography(30px, 600, map-get($main, 'gray'))

@@ -1,0 +1,62 @@
+@import '../../../../styles/_typography'
+@import '../../../../styles/_variables'
+.branchBox
+    border: 1px solid rgba(0, 0, 0, 0.06)
+    padding: 32px
+    border-radius: 5px
+    border-radius: 16px
+    background: map-get($basic, 'white')
+    display: flex
+    flex-direction: column
+    row-gap: 20px
+    .branchFormHeader
+        display: flex
+        align-items: center
+        justify-content: space-between
+        .headerTitle
+            .title
+                +typography(20px, 600, map-get($basic, 'black'))
+                line-height: 28px
+                letter-spacing: -0.6px
+        .headerSubtitle
+            .subtitle
+                +typography(14px, 500, rgba(0, 0, 0, 0.65))
+                line-height: 22px
+                letter-spacing: -0.28px
+    .createBranchForm
+        .createBranchContainer
+            display: flex
+            flex-direction: column
+            row-gap: 20px
+            .branchInputBox
+                display: flex
+                flex-direction: column
+                row-gap: 8px
+                .input
+                    line-height: 24px
+                    letter-spacing: -0.32px
+                    +typography(16px, 500, #000000E0)
+                .label
+                    line-height: 22px
+                    letter-spacing: -0.28px
+                    display: flex
+                    column-gap: 4px
+                    +typography(14px, 500, map-get($basic, 'black'))
+                    .optional
+                        +typography(14px, 500, rgba(0, 0, 0, 0.45) )
+                        line-height: 22px
+                        letter-spacing: -0.28px
+            .formInfoAlert
+                align-items: center
+                .ant-alert-description
+                    +typography(14px, 500, map-get($basic, 'black'))
+.ant-popover
+    max-width: 224px
+.deletePopover
+    .ant-alert
+        background: map-get($basic, 'white')
+    .btnGroup
+        display: flex
+        flex-direction: row
+        justify-content: flex-end
+        column-gap: 8px

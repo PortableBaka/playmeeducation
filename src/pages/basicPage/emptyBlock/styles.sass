@@ -1,0 +1,15 @@
+@import '../../../styles/_typography'
+@import '../../../styles/_variables'
+.contentEmpty
+    display: flex
+    justify-content: center
+    align-items: center
+    flex-direction: column
+    padding: 0 12px 40px 12px
+    row-gap: 10px
+    .emptyImage
+        .img
+            width: 100%
+    .emptyText
+        .text
+            +typography(16px, 500, map-get($main, 'gray'))

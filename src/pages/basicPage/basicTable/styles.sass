@@ -1,0 +1,17 @@
+@import '../../../styles/_typography'
+@import '../../../styles/_variables'
+
+.basicTableAddingKindergarten
+    .ant-table
+        border: 1px solid #0000000F
+        border-radius: 6px !important
+    .ant-table-thead .ant-table-cell
+        +typography(16px, 600, map-get($basic, 'black'))
+    .tableTextInner
+        +typography(14px, 500, map-get($basic, 'black'))
+    .tagText
+        +typography(12px, 500)
+    .tagText.active
+        color: #52C41A
+    .tagText.notActive
+        color: #F5222D
