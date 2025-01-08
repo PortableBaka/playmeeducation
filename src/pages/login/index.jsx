@@ -1,13 +1,13 @@
+import { Button, Form, Input } from "antd";
+import { t } from "i18next";
 import React, { useEffect } from "react";
-import { Button, Checkbox, Form, Input } from "antd";
-import { authorizeSuperAdmin } from "../../store/superAdminSlice";
+import { useTranslation } from "react-i18next";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
-import "./styles.sass";
 import { logout } from "../../store/authUser";
-import { useTranslation } from "react-i18next";
-import { t } from "i18next";
+import { authorizeSuperAdmin } from "../../store/superAdminSlice";
+import "./styles.sass";
 
 const onFinish = async (values, dispatch, navigate) => {
   try {
