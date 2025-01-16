@@ -8,7 +8,6 @@ export const createEvent = createAsyncThunk(
     try {
       const id = localStorage.getItem("selectedBranchId");
       eventData["branch_id"] = id;
-      console.log(eventData)
       const response = await instance.post(`/events`, eventData);
       toast.success("Event created successfully!");
       return response.data;
@@ -109,7 +108,7 @@ export const updateEvent = createAsyncThunk(
   "events/updateEvent",
   async ({ eventId, updatedData }, { rejectWithValue }) => {
     try {
-      const response = await instance.put(`/events/${eventId}`, updatedData);
+      const response = await instance.put(`/events/${eventId}?branch_id=${localStorage.getItem("selectedBranchId")}`, updatedData);
       toast.success("Event updated successfully!");
       return response.data;
     } catch (error) {
@@ -145,7 +144,6 @@ const eventsSlice = createSlice({
       state.status = "idle";
       state.loading = false;
       state.error = null;
-      state.status = "idle";
     },
   },
   extraReducers: (builder) => {
@@ -157,6 +155,7 @@ const eventsSlice = createSlice({
       .addCase(createEvent.fulfilled, (state, action) => {
         state.loading = false;
         state.status = "succeeded";
+        resetStatus(state)
       })
       .addCase(createEvent.rejected, (state, action) => {
         state.loading = false;
@@ -171,6 +170,7 @@ const eventsSlice = createSlice({
         state.loading = false;
         state.status = "succeeded";
         state.events = action.payload;
+        state.status = "idle";
       })
       .addCase(getAllEvents.rejected, (state, action) => {
         state.loading = false;

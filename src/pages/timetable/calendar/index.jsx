@@ -20,7 +20,7 @@ const CalendarBlock = () => {
 
   useEffect(() => {
     console.log(status)
-    if(status === "succeded" || status === "idle") dispatch(getAllEvents());
+    if(status === "idle") dispatch(getAllEvents());
   }, [dispatch, status]);
 
   const handleNavigate = (newDate) => {
