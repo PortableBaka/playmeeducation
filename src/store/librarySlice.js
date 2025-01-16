@@ -1,4 +1,4 @@
-import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import instance from "../api/instance";
 
 export const createLibraryUploadFile = createAsyncThunk(
@@ -104,6 +104,7 @@ export const retrieveLibrarySearch = createAsyncThunk(
 const librarySlice = createSlice({
   name: "library",
   initialState: {
+    libraryDataById: {},
     isLoading: false,
     error: null,
     success: false,

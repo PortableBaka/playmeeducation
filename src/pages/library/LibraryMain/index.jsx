@@ -1,15 +1,15 @@
-import React, { useEffect, useMemo, useState } from "react";
-import { Input, theme } from "antd";
 import { SearchOutlined } from "@ant-design/icons";
-import { useDispatch, useSelector } from "react-redux";
-import { retrieveLibraryData } from "../../../store/librarySlice";
-import LayoutHeader from "../../../components/layoutHeader";
-import LibraryTable from "../LibraryTable";
-import EmptyBlock from "../../basicPage/emptyBlock";
-import "./styles.sass";
-import { GetBasicTableColumns } from "../LibraryTable/getBasicTableColumns";
-import SkeletonTable from "../../../components/skeleton/SkeletonTable";
+import { Input } from "antd";
+import React, { useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
+import { useDispatch, useSelector } from "react-redux";
+import LayoutHeader from "../../../components/layoutHeader";
+import SkeletonTable from "../../../components/skeleton/SkeletonTable";
+import { retrieveLibraryData } from "../../../store/librarySlice";
+import EmptyBlock from "../../basicPage/emptyBlock";
+import LibraryTable from "../LibraryTable";
+import { GetBasicTableColumns } from "../LibraryTable/getBasicTableColumns";
+import "./styles.sass";
 
 const LibraryMainPage = () => {
   const { t } = useTranslation();
@@ -31,13 +31,15 @@ const LibraryMainPage = () => {
 
   const filterData = (libraryData, searchTerm) => {
     if (!searchTerm) return libraryData;
-    return libraryData?.filter((item) => {
+    return libraryData.filter((item) => {
       return item?.file_name?.toLowerCase().includes(searchTerm.toLowerCase());
-    });
+    }) || [];
   };
 
   const searchFilteredData = useMemo(
-    () => filterData(libraryData, searchTerm),
+    () => {
+      return filterData(libraryData, searchTerm)
+    },
     [libraryData, searchTerm]
   );
 

@@ -1,9 +1,9 @@
-import React from "react";
 import { Table } from "antd";
-import { GetBasicTableColumns } from "./getBasicTableColumns";
-import { useNavigate } from "react-router-dom";
-import "./styles.sass";
 import { t } from "i18next";
+import React from "react";
+import { useNavigate } from "react-router-dom";
+import { GetBasicTableColumns } from "./getBasicTableColumns";
+import "./styles.sass";
 
 const LibraryTable = (props) => {
   const navigate = useNavigate();

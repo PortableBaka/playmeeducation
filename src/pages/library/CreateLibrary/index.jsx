@@ -1,28 +1,28 @@
-import React, { useEffect, useState } from "react";
+import { InboxOutlined } from "@ant-design/icons";
 import {
   Alert,
   Button,
+  Form,
   Input,
+  Modal,
   Radio,
   Select,
-  message,
-  Form,
   Upload,
-  Modal,
+  message,
 } from "antd";
-import { InboxOutlined } from "@ant-design/icons";
-import { Link, useNavigate } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
 import { IoMdClose } from "react-icons/io";
 import { useDispatch, useSelector } from "react-redux";
+import { Link, useNavigate } from "react-router-dom";
+import { AdminType, UserType } from "../../../config";
 import { retrieveGroupData, setSelectedGroup } from "../../../store/groupSlice";
 import {
   createLibraryData,
   createLibraryUploadFile,
 } from "../../../store/librarySlice";
-import "./styles.sass";
 import ExitModal from "../../kindergarten/createKindergarten/modalBox";
-import { AdminType, UserType } from "../../../config";
-import { useTranslation } from "react-i18next";
+import "./styles.sass";
 
 const getMediaType = (file) => {
   const fileType = file.type;
@@ -163,6 +163,7 @@ const CreateLibrary = () => {
     }
     const finalFormData = {
       ...values,
+      title: values.naming,
       can_view: visibility === "Все" ? "all" : "group",
       branch_id: selectedBranchId,
       file_type: mediaType,
@@ -220,7 +221,7 @@ const CreateLibrary = () => {
 
           <Form.Item
             label={t("naming")}
-            name={t("naming")}
+            name="naming"
             rules={[{ required: true, message: t("input_name") }]}
           >
             <Input placeholder={t("input_name")} size="large" />
