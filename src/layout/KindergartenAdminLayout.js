@@ -1,17 +1,17 @@
-import React, { useEffect, useState } from "react";
 import { Layout, Menu, Select, theme } from "antd";
+import { Content } from "antd/es/layout/layout";
+import React, { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
+import { AiOutlineHome } from "react-icons/ai";
+import { useDispatch, useSelector } from "react-redux";
 import { Outlet, useLocation, useNavigate } from "react-router-dom";
-import { useSelector, useDispatch } from "react-redux";
+import globalIcon from "../assets/svg/global.svg";
 import { roleAvailablePages } from "../config";
 import { getAuthenticatedUser, logout } from "../store/authUser";
-import { Content } from "antd/es/layout/layout";
-import { AiOutlineHome } from "react-icons/ai";
-import { retrieveKindergartensById } from "../store/kindergartensSlice";
 import { setSelectedBranchId } from "../store/branchSlice";
+import { retrieveKindergartensById } from "../store/kindergartensSlice";
 import { AdditionalMenu } from "./additionalMenu";
-import globalIcon from "../assets/svg/global.svg";
 import "./styles.sass";
-import { useTranslation } from "react-i18next";
 
 const { Sider } = Layout;
 const { Option } = Select;
@@ -40,9 +40,12 @@ const KindergartenAdminLayout = () => {
 
   useEffect(() => {
     const lang = localStorage.getItem("language");
-    if (localStorage.getItem("language")) {
+    if (lang) {
       i18n.changeLanguage(lang);
       setSelectedLanguage(lang);
+    } else {
+      i18n.changeLanguage("uz");
+      setSelectedLanguage("uz");
     }
   }, [selectedLanguage]);
   useEffect(() => {

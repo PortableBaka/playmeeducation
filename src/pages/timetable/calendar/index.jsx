@@ -1,18 +1,55 @@
-import { Calendar, momentLocalizer } from "react-big-calendar";
 import moment from "moment";
+import { useEffect, useState } from "react";
+import { Calendar, momentLocalizer } from "react-big-calendar";
 import "react-big-calendar/lib/css/react-big-calendar.css";
-import { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  createEvent,
+  deleteEvent,
+  getAllEvents
+} from "../../../store/eventSlice";
 import "./styles.sass";
 
 const localizer = momentLocalizer(moment);
 
 const CalendarBlock = () => {
+  const dispatch = useDispatch();
+  const { events, status, loading, error } = useSelector((state) => state.events);
+
   const [date, setDate] = useState(new Date());
-  const [events, setEvents] = useState([]);
+
+  useEffect(() => {
+    console.log(status)
+    if(status === "succeded" || status === "idle") dispatch(getAllEvents());
+  }, [dispatch, status]);
 
   const handleNavigate = (newDate) => {
     setDate(newDate);
   };
+
+  const handleCreateEvent = ({ start, end }) => {
+    const title = window.prompt("Enter event title:");
+    if (title) {
+      console.log(start, end)
+      const data = { 
+        date: moment(start).format("YYYY-MM-DD"),
+        name: title,
+        start_time: moment(start).format(),
+        end_time: moment(end).format(),
+        event_type: "Событие",
+      }
+      dispatch(createEvent(data));
+    }
+  }
+
+  const handleDeleteEvent = (event) => {
+    const e = events.find((e) => e.start === event.start && e.end === event.end);
+    if (window.confirm(`Delete event?`)) {
+      dispatch(deleteEvent(e.id));
+    }
+  }
+
+  console.log(events)
 
   const getEventStyle = (event) => {
     const hour = moment(event.start).hour();
@@ -41,34 +78,30 @@ const CalendarBlock = () => {
     };
   };
 
-  return (
-    <Calendar
-      localizer={localizer}
-      events={events}
-      startAccessor='start'
-      endAccessor='end'
-      selectable
-      onSelectSlot={({ start, end }) => {
-        const title = window.prompt("Введите название мероприятия:");
-        if (title) {
-          setEvents([...events, { start, end, title }]);
-        }
-      }}
-      defaultView='week'
-      views={["week"]}
-      date={date}
-      onNavigate={handleNavigate}
-      min={new Date(date.getFullYear(), date.getMonth(), date.getDate(), 8, 0)}
-      max={new Date(date.getFullYear(), date.getMonth(), date.getDate(), 19, 0)}
-      style={{ height: 600 }}
-      formats={{
-        timeGutterFormat: (date, culture, localizer) => moment(date).format("HH:mm"),
-        eventTimeRangeFormat: ({ start, end }, culture, localizer) =>
-          `${moment(start).format("HH:mm")} - ${moment(end).format("HH:mm")}`,
-      }}
-      eventPropGetter={(event) => getEventStyle(event)}
-    />
-  );
+  return <Calendar
+        localizer={localizer}
+        events={events || []} 
+        startAccessor="start"
+        endAccessor="end"
+        selectable
+        onSelectSlot={handleCreateEvent}
+        onSelectEvent={handleDeleteEvent}
+        defaultView="week"
+        views={["week"]}
+        date={date}
+        onNavigate={handleNavigate}
+        min={new Date(date.getFullYear(), date.getMonth(), date.getDate(), 8, 0)}
+        max={new Date(date.getFullYear(), date.getMonth(), date.getDate(), 19, 0)}
+        style={{ height: 600 }}
+        formats={{
+          timeGutterFormat: (date, culture, localizer) =>
+            moment(date).format("HH:mm"),
+          eventTimeRangeFormat: ({ start, end }, culture, localizer) =>
+            `${moment(start).format("HH:mm")} - ${moment(end).format("HH:mm")}`,
+        }}
+        eventPropGetter={(event) => getEventStyle(event)}
+      />
+
 };
 
 export default CalendarBlock;

@@ -1,12 +1,13 @@
 import { configureStore } from "@reduxjs/toolkit";
-import { authorizeSuperAdmin } from "./superAdminSlice";
-import kindergartensSlice from "./kindergartensSlice";
 import branchSlice from "./branchSlice";
+import employeesSlice from "./employeesSlice";
+import eventsSlice from "./eventSlice";
+import groupSlice from "./groupSlice";
+import kindergartensSlice from "./kindergartensSlice";
 import leadsSlice from "./leadsSlice";
 import librarySlice from "./librarySlice";
-import groupSlice from "./groupSlice";
 import studentSlice from "./studentSlice";
-import employeesSlice from "./employeesSlice";
+import { authorizeSuperAdmin } from "./superAdminSlice";
 import transactionSlice from "./transactionSlice";
 
 export const store = configureStore({
@@ -19,7 +20,8 @@ export const store = configureStore({
         group: groupSlice,
         students: studentSlice,
         employee: employeesSlice,
-        transaction : transactionSlice
+        transaction : transactionSlice,
+        events: eventsSlice
     }
     
 })
