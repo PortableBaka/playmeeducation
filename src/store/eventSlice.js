@@ -12,6 +12,7 @@ export const createEvent = createAsyncThunk(
       toast.success("Event created successfully!");
       return response.data;
     } catch (error) {
+        toast.error(error.response?.data.detail || "Error creating event");
       return rejectWithValue(error.response?.data || "Error creating event");
     }
   }
@@ -32,6 +33,7 @@ export const getAllEvents = createAsyncThunk(
       }));
       return formattedData;
     } catch (error) {
+        toast.error(error.response?.data.detail || "Error fetching events");
       return rejectWithValue(error.response?.data || "Error fetching events");
     }
   }
@@ -45,6 +47,7 @@ export const duplicateEventsToNextWeek = createAsyncThunk(
       toast.success("Events duplicated to next week successfully!");
       return response.data;
     } catch (error) {
+        toast.error(error.response?.data.detail || "Error duplicating events");
       return rejectWithValue(error.response?.data || "Error duplicating events");
     }
   }
@@ -112,6 +115,7 @@ export const updateEvent = createAsyncThunk(
       toast.success("Event updated successfully!");
       return response.data;
     } catch (error) {
+        toast.error(error.response?.data.detail || "Error updating event");
       return rejectWithValue(error.response?.data || "Error updating event");
     }
   }
@@ -125,6 +129,7 @@ export const deleteEvent = createAsyncThunk(
       toast.success("Event deleted successfully!");
       return eventId;
     } catch (error) {
+        toast.error(error.response?.data.detail || "Error deleting event");
       return rejectWithValue(error.response?.data || "Error deleting event");
     }
   }
@@ -170,7 +175,6 @@ const eventsSlice = createSlice({
         state.loading = false;
         state.status = "succeeded";
         state.events = action.payload;
-        state.status = "idle";
       })
       .addCase(getAllEvents.rejected, (state, action) => {
         state.loading = false;

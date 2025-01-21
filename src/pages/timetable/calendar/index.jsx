@@ -9,8 +9,9 @@ import {
   getAllEvents
 } from "../../../store/eventSlice";
 import "./styles.sass";
-import {Alert, Button, Modal} from "antd";
 import {useTranslation} from "react-i18next";
+import CalendarModal from "./Modal";
+import {Skeleton} from "../../../components/skeleton";
 
 const localizer = momentLocalizer(moment);
 
@@ -21,9 +22,9 @@ const CalendarBlock = () => {
   const [date, setDate] = useState(new Date());
   const { t } = useTranslation();
   const [showModal, setShowModal] = useState(false);
+  const [selectedEvent, setSelectedEvent] = useState(null);
 
   useEffect(() => {
-    console.log(status)
     if(status === "idle") dispatch(getAllEvents());
   }, [dispatch, status]);
 
@@ -47,9 +48,9 @@ const CalendarBlock = () => {
   }
 
   const handleDeleteEvent = (event) => {
+    console.log(event)
     const e = events.find((e) => e.start === event.start && e.end === event.end);
     dispatch(deleteEvent(e.id));
-
   }
 
   const handleShowModal = () => {
@@ -59,8 +60,6 @@ const CalendarBlock = () => {
   const handleHideModal = () => {
     setShowModal(false)
   }
-
-  console.log(events)
 
   const getEventStyle = (event) => {
     const hour = moment(event.start).hour();
@@ -90,14 +89,20 @@ const CalendarBlock = () => {
   };
 
   return <>
-    <Calendar
+    {loading && <Skeleton />}
+        <Calendar
         localizer={localizer}
         events={events || []} 
         startAccessor="start"
         endAccessor="end"
         selectable
         onSelectSlot={handleCreateEvent}
-        onSelectEvent={handleShowModal}
+        onSelectEvent={
+          (event) => {
+            setSelectedEvent(event);
+            handleShowModal();
+          }
+        }
         defaultView="week"
         views={["week"]}
         date={date}
@@ -113,19 +118,8 @@ const CalendarBlock = () => {
         }}
         eventPropGetter={(event) => getEventStyle(event)}
       />
-    <Modal open={showModal} onCancel={handleHideModal} />
-    {/*{ showDeletePopover && <div>*/}
-    {/*    <Alert*/}
-    {/*    message={t("delete_alert_message")}*/}
-    {/*    banner*/}
-    {/*    className="deleteAlert"*/}
-    {/*/>*/}
-    {/*<Button onClick={hide}>{t("cancel")}</Button>*/}
-    {/*<Button type="primary" onClick={(e) => handleDelete(e, libraryDataById?.id)}>*/}
-    {/*  {t("delete")}*/}
-    {/*</Button>*/}
-    {/*</div>}*/}
-  </>
+    <CalendarModal showModal={showModal} selectedEvent={selectedEvent} handleDeleteEvent={handleDeleteEvent} handleHideModal={handleHideModal} />
+    </>
 };
 
 export default CalendarBlock;
