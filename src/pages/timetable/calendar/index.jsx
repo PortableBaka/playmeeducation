@@ -35,7 +35,6 @@ const CalendarBlock = () => {
   const handleCreateEvent = ({ start, end }) => {
     const title = window.prompt("Enter event title:");
     if (title) {
-      console.log(start, end)
       const data = { 
         date: moment(start).format("YYYY-MM-DD"),
         name: title,
@@ -51,6 +50,10 @@ const CalendarBlock = () => {
     console.log(event)
     const e = events.find((e) => e.start === event.start && e.end === event.end);
     dispatch(deleteEvent(e.id));
+  }
+
+  const handleEditModal = () => {
+
   }
 
   const handleShowModal = () => {
@@ -118,7 +121,7 @@ const CalendarBlock = () => {
         }}
         eventPropGetter={(event) => getEventStyle(event)}
       />
-    <CalendarModal showModal={showModal} selectedEvent={selectedEvent} handleDeleteEvent={handleDeleteEvent} handleHideModal={handleHideModal} />
+    <CalendarModal showModal={showModal} selectedEvent={selectedEvent} handleEditEvent={handleEditModal} handleCreateEvent={handleCreateEvent} handleDeleteEvent={handleDeleteEvent} handleHideModal={handleHideModal} />
     </>
 };
 

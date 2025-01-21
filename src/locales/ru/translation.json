@@ -149,6 +149,7 @@
   "input_fio_student": "Введите Ф.И.О ученика",
   "welcome": "Добро пожаловать",
   "student_success_delete": "Студент был успешно удален",
+  "event": "Мероприятие",
   "months": {
     "January": "Январь",
     "February": "Февраль",
