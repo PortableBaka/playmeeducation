@@ -9,8 +9,6 @@ import { FormatDate } from "../../kindergarten/updateKindergarten/formatData";
 const EditHeader = ({ libraryDataById, setShowExitModal, handleDelete }) => {
   const { t } = useTranslation();
 
-  console.log(libraryDataById)
-
   const [open, setOpen] = useState(false);
   const hide = () => {
     setOpen(false);
