@@ -8,7 +8,7 @@ const CalendarModal = ({handleHideModal, isEdit, handleEditEvent, handleCreateEv
     return <Modal open={showModal} onOk={() => {
         isEdit ? handleEditEvent() : handleCreateEvent()}} onCancel={handleHideModal}>
             <h3>{t("event")}</h3>
-            <Button type="primary" icon={<FaRegTrashAlt />} danger onClick={(e) => handleDeleteEvent(selectedEvent)} />
+        {isEdit && <Button type="primary" icon={<FaRegTrashAlt />} danger onClick={(e) => handleDeleteEvent(selectedEvent)} />}
         </Modal>
 };
 

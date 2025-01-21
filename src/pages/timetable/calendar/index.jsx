@@ -99,7 +99,12 @@ const CalendarBlock = () => {
         startAccessor="start"
         endAccessor="end"
         selectable
-        onSelectSlot={handleCreateEvent}
+        onSelectSlot={
+          (event) => {
+            setSelectedEvent(null);
+            handleShowModal();
+          }
+        }
         onSelectEvent={
           (event) => {
             setSelectedEvent(event);
@@ -121,7 +126,15 @@ const CalendarBlock = () => {
         }}
         eventPropGetter={(event) => getEventStyle(event)}
       />
-    <CalendarModal showModal={showModal} selectedEvent={selectedEvent} handleEditEvent={handleEditModal} handleCreateEvent={handleCreateEvent} handleDeleteEvent={handleDeleteEvent} handleHideModal={handleHideModal} />
+    <CalendarModal
+        showModal={showModal}
+        isEdit={!!selectedEvent}
+        selectedEvent={selectedEvent}
+        handleEditEvent={handleEditModal}
+        handleCreateEvent={handleCreateEvent}
+        handleDeleteEvent={handleDeleteEvent}
+        handleHideModal={handleHideModal}
+    />
     </>
 };
 
