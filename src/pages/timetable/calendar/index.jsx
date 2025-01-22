@@ -6,18 +6,19 @@ import { useDispatch, useSelector } from "react-redux";
 import {
   createEvent,
   deleteEvent,
-  getAllEvents
+  getAllEvents,
+  updateEvent, // Assuming this exists for editing events
 } from "../../../store/eventSlice";
 import "./styles.sass";
-import {useTranslation} from "react-i18next";
+import { useTranslation } from "react-i18next";
 import CalendarModal from "./Modal";
-import {Skeleton} from "../../../components/skeleton";
+import { Skeleton } from "../../../components/skeleton";
 
 const localizer = momentLocalizer(moment);
 
 const CalendarBlock = () => {
   const dispatch = useDispatch();
-  const { events, status, loading, error } = useSelector((state) => state.events);
+  const { events, status, loading } = useSelector((state) => state.events);
 
   const [date, setDate] = useState(new Date());
   const { t } = useTranslation();
@@ -25,49 +26,44 @@ const CalendarBlock = () => {
   const [selectedEvent, setSelectedEvent] = useState(null);
 
   useEffect(() => {
-    if(status === "idle") dispatch(getAllEvents());
+    if (status === "idle") {
+      dispatch(getAllEvents());
+    }
   }, [dispatch, status]);
 
   const handleNavigate = (newDate) => {
     setDate(newDate);
   };
 
-  const handleCreateEvent = ({ start, end }) => {
-    const title = window.prompt("Enter event title:");
-    if (title) {
-      const data = { 
-        date: moment(start).format("YYYY-MM-DD"),
-        name: title,
-        start_time: moment(start).format(),
-        end_time: moment(end).format(),
-        event_type: "Событие",
-      }
-      dispatch(createEvent(data));
-    }
-  }
-
-  const handleDeleteEvent = (event) => {
-    console.log(event)
-    const e = events.find((e) => e.start === event.start && e.end === event.end);
-    dispatch(deleteEvent(e.id));
-  }
-
-  const handleEditModal = () => {
-
-  }
-
   const handleShowModal = () => {
     setShowModal(true);
-  }
+  };
 
   const handleHideModal = () => {
-    setShowModal(false)
-  }
+    setShowModal(false);
+    setSelectedEvent(null);
+  };
+
+  const handleCreateEvent = (data) => {
+    dispatch(createEvent(data));
+    handleHideModal();
+  };
+
+  const handleEditEvent = (data) => {
+    dispatch(updateEvent(data));
+    handleHideModal();
+  };
+
+  const handleDeleteEvent = (event) => {
+    dispatch(deleteEvent(event.id));
+    handleHideModal();
+  };
 
   const getEventStyle = (event) => {
     const hour = moment(event.start).hour();
     let backgroundColor;
     let borderColor;
+
     if (hour < 12) {
       backgroundColor = "rgba(239, 219, 255, 1)";
       borderColor = "rgba(146, 84, 222, 1)";
@@ -91,51 +87,52 @@ const CalendarBlock = () => {
     };
   };
 
-  return <>
-    {loading && <Skeleton />}
+  return (
+      <>
+        {loading && <Skeleton />}
         <Calendar
-        localizer={localizer}
-        events={events || []} 
-        startAccessor="start"
-        endAccessor="end"
-        selectable
-        onSelectSlot={
-          (event) => {
-            setSelectedEvent(null);
-            handleShowModal();
-          }
-        }
-        onSelectEvent={
-          (event) => {
-            setSelectedEvent(event);
-            handleShowModal();
-          }
-        }
-        defaultView="week"
-        views={["week"]}
-        date={date}
-        onNavigate={handleNavigate}
-        min={new Date(date.getFullYear(), date.getMonth(), date.getDate(), 8, 0)}
-        max={new Date(date.getFullYear(), date.getMonth(), date.getDate(), 19, 0)}
-        style={{ height: 600 }}
-        formats={{
-          timeGutterFormat: (date, culture, localizer) =>
-            moment(date).format("HH:mm"),
-          eventTimeRangeFormat: ({ start, end }, culture, localizer) =>
-            `${moment(start).format("HH:mm")} - ${moment(end).format("HH:mm")}`,
-        }}
-        eventPropGetter={(event) => getEventStyle(event)}
-      />
-    <CalendarModal
-        showModal={showModal}
-        isEdit={!!selectedEvent}
-        selectedEvent={selectedEvent}
-        handleEditEvent={handleEditModal}
-        handleCreateEvent={handleCreateEvent}
-        handleDeleteEvent={handleDeleteEvent}
-        handleHideModal={handleHideModal}
-    />
-    </>
+            localizer={localizer}
+            events={events || []}
+            startAccessor="start"
+            endAccessor="end"
+            selectable
+            onSelectSlot={(slotInfo) => {
+              setSelectedEvent({
+                date: moment(slotInfo.start).format("YYYY-MM-DD"),
+                start_time: moment(slotInfo.start).format(),
+                end_time: moment(slotInfo.end).format(),
+              });
+              handleShowModal();
+            }}
+            onSelectEvent={(event) => {
+              setSelectedEvent(event);
+              handleShowModal();
+            }}
+            defaultView="week"
+            views={["week"]}
+            date={date}
+            onNavigate={handleNavigate}
+            min={new Date(date.getFullYear(), date.getMonth(), date.getDate(), 8, 0)}
+            max={new Date(date.getFullYear(), date.getMonth(), date.getDate(), 19, 0)}
+            style={{ height: 600 }}
+            formats={{
+              timeGutterFormat: (date) => moment(date).format("HH:mm"),
+              eventTimeRangeFormat: ({ start, end }) =>
+                  `${moment(start).format("HH:mm")} - ${moment(end).format("HH:mm")}`,
+            }}
+            eventPropGetter={(event) => getEventStyle(event)}
+        />
+        <CalendarModal
+            showModal={showModal}
+            isEdit={!!selectedEvent?.id}
+            selectedEvent={selectedEvent}
+            handleEditEvent={handleEditEvent}
+            handleCreateEvent={handleCreateEvent}
+            handleDeleteEvent={handleDeleteEvent}
+            handleHideModal={handleHideModal}
+        />
+      </>
+  );
 };
 
 export default CalendarBlock;

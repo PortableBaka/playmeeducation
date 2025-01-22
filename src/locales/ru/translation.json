@@ -163,5 +163,26 @@
     "October": "Октябрь",
     "November": "Ноябрь",
     "December": "Декабрь"
-  }
+  },
+  "name": "Название",
+  "date": "Дата",
+  "start_time": "Время начала",
+  "end_time": "Время окончания",
+  "event_type": "Тип события",
+  "branch_id": "ID филиала",
+  "teacher_id": "Учитель",
+  "create_event": "Создать событие",
+  "edit_event": "Редактировать событие",
+  "delete_event": "Удалить событие",
+  "save_changes": "Сохранить",
+  "insert_name": "Введите название...",
+  "insert_description": "Введите описание...",
+  "select_date": "Выберите дату...",
+  "select_start_time": "Выберите время начала...",
+  "select_end_time": "Выберите время окончания...",
+  "select_event_type": "Выберите тип события...",
+  "insert_branch_id": "Введите ID филиала...",
+  "select_teacher": "Выберите учителя...",
+  "insert_location": "Введите местоположение...",
+  "insert_notes": "Введите заметки..."
 }

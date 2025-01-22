@@ -109,9 +109,9 @@ export const getEventById = createAsyncThunk(
 
 export const updateEvent = createAsyncThunk(
   "events/updateEvent",
-  async ({ eventId, updatedData }, { rejectWithValue }) => {
+  async (data, { rejectWithValue }) => {
     try {
-      const response = await instance.put(`/events/${eventId}?branch_id=${localStorage.getItem("selectedBranchId")}`, updatedData);
+      const response = await instance.put(`/events/${data.id}?branch_id=${localStorage.getItem("selectedBranchId")}`, data);
       toast.success("Event updated successfully!");
       return response.data;
     } catch (error) {
