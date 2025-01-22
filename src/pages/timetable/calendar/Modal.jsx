@@ -158,7 +158,14 @@ const CalendarModal = ({
                     <Form.Item
                         label={t("start_time")}
                         name="start_time"
-                        rules={[{ required: true, message: t("select_start_time") }]}
+                        rules={[{ required: true, message: t("select_start_time") },  ({ getFieldValue }) => ({
+                            validator(_, value) {
+                                if (!value || moment(value).isBefore(getFieldValue("end_time"))) {
+                                    return Promise.resolve();
+                                }
+                                return Promise.reject(new Error());
+                            },
+                        }),]}
                     >
                         <TimePicker format="HH:mm" minuteStep={5} hourStep={1} />
                     </Form.Item>
@@ -166,7 +173,14 @@ const CalendarModal = ({
                     <Form.Item
                         label={t("end_time")}
                         name="end_time"
-                        rules={[{ required: true, message: t("select_end_time") }]}
+                        rules={[{ required: true, message: t("select_end_time") },  ({ getFieldValue }) => ({
+                            validator(_, value) {
+                                if (!value || moment(value).isAfter(getFieldValue("start_time"))) {
+                                    return Promise.resolve();
+                                }
+                                return Promise.reject(new Error());
+                            },
+                        }),]}
                     >
                         <TimePicker format="HH:mm" minuteStep={5} hourStep={1} />
                     </Form.Item>
