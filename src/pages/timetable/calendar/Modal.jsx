@@ -38,7 +38,7 @@ const CalendarModal = ({
                 date: moment(selectedEvent.date, "YYYY-MM-DD"),
                 start_time: moment(selectedEvent.start_time),
                 end_time: moment(selectedEvent.end_time),
-                event_type: selectedEvent.event_type,
+                event_type: selectedEvent.event_type || EventType.EVENT,
                 teacher_id: selectedEvent.teacher_id,
             });
         } else {
@@ -46,6 +46,7 @@ const CalendarModal = ({
                 date: moment(selectedEvent.date, "YYYY-MM-DD"),
                 start_time: moment(selectedEvent.start_time),
                 end_time: moment(selectedEvent.end_time),
+                event_type: selectedEvent.event_type || EventType.EVENT
             });
             else form.resetFields()
         }
@@ -89,11 +90,25 @@ const CalendarModal = ({
     return (
         <Modal
             open={showModal}
-            title={isEdit ? t("edit_event") : t("create_event")}
+            title={
+                <div className="modal-header">
+                    <span>{isEdit ? t("edit_event") : t("create_event")}</span>
+                    {isEdit && (
+                        <Button
+                            className="delete-button"
+                            type="primary"
+                            danger={true}
+                            onClick={() => handleDeleteEvent(selectedEvent)}
+                        >
+                            <FaRegTrashAlt />
+                        </Button>
+                    )}
+                </div>
+            }
             onCancel={handleHideModal}
             footer={[
                 <Button key="cancel" onClick={handleHideModal}>
-                    Cancel
+                    {t("cancel")}
                 </Button>,
                 <Button key="submit" type="primary" loading={loading} onClick={handleSubmit}>
                     {isEdit ? t("save_changes") : t("create_event")}
@@ -101,21 +116,12 @@ const CalendarModal = ({
             ]}
         >
             <Form layout="vertical" form={form}>
-                {isEdit && (
-                    <Button
-                        icon={<FaRegTrashAlt />}
-                        key={"delete"}
-                        type="primary"
-                        danger
-                        onClick={() => handleDeleteEvent(selectedEvent)}
-                    />
-                )}
                 <Form.Item
                     label={t("event_type")}
                     name="event_type"
-                    rules={[{ required: true, message: t("select_event_type") }]}
+                    rules={[{ message: t("select_event_type") }]}
                 >
-                    <Select defaultValue={EventType.EVENT} placeholder={t("select_event_type")}>
+                    <Select placeholder={t("select_event_type")}>
                         {Object.entries(EventType).map(([key, value]) => (
                             <Option key={key} value={value}>
                                 {value}
@@ -123,10 +129,11 @@ const CalendarModal = ({
                         ))}
                     </Select>
                 </Form.Item>
+
                 <Form.Item
                     label={t("name")}
                     name="name"
-                    rules={[{ required: true, message: t("insert_name")}]}
+                    rules={[{ required: true, message: t("insert_name") }]}
                 >
                     <Input placeholder={t("insert_name")} />
                 </Form.Item>
@@ -134,38 +141,36 @@ const CalendarModal = ({
                 <Form.Item
                     label={t("description")}
                     name="description"
-                    rules={[{ required: true, message: t("insert_description") }]}
+                    rules={[{ message: t("insert_description") }]}
                 >
                     <Input.TextArea placeholder={t("insert_description")} />
                 </Form.Item>
 
-                <Form.Item
-                    label={t("date")}
-                    name="date"
-                    rules={[{ required: true, message: t("select_date") }]}
-                >
-                    <MyDatePicker format="YYYY-MM-DD" />
-                </Form.Item>
+                <div className="inline-fields">
+                    <Form.Item
+                        label={t("date")}
+                        name="date"
+                        rules={[{ required: true, message: t("select_date") }]}
+                    >
+                        <MyDatePicker disabled={true} format="YYYY-MM-DD" />
+                    </Form.Item>
 
-                <Form.Item
-                    label={t("start_time")}
-                    name="start_time"
-                    rules={[{ required: true, message: t("select_start_time") }]}
-                >
-                    <TimePicker format="HH:mm" onChange={(v) => {
-                        selectedEvent.start_time = moment(v).format();
-                    }} minuteStep={5} hourStep={1} />
-                </Form.Item>
+                    <Form.Item
+                        label={t("start_time")}
+                        name="start_time"
+                        rules={[{ required: true, message: t("select_start_time") }]}
+                    >
+                        <TimePicker format="HH:mm" minuteStep={5} hourStep={1} />
+                    </Form.Item>
 
-                <Form.Item
-                    label={t("end_time")}
-                    name="end_time"
-                    rules={[{ required: true, message: t("select_end_time") }]}
-                >
-                    <TimePicker format="HH:mm" onChange={(v) => {
-                        selectedEvent.end_time = moment(v).format();
-                    }} minuteStep={5} hourStep={1} />
-                </Form.Item>
+                    <Form.Item
+                        label={t("end_time")}
+                        name="end_time"
+                        rules={[{ required: true, message: t("select_end_time") }]}
+                    >
+                        <TimePicker format="HH:mm" minuteStep={5} hourStep={1} />
+                    </Form.Item>
+                </div>
 
                 <Form.Item
                     label={t("teacher_id")}
@@ -173,11 +178,12 @@ const CalendarModal = ({
                     rules={[{ required: true, message: t("select_teacher") }]}
                 >
                     <Select placeholder={t("select_teacher")}>
-                        {allTeachers && allTeachers?.map((teacher) => (
-                            <Option key={teacher.id} value={teacher.id}>
-                                {teacher.name}
-                            </Option>
-                        ))}
+                        {allTeachers &&
+                            allTeachers.map((teacher) => (
+                                <Option key={teacher.id} value={teacher.id}>
+                                    {teacher.name}
+                                </Option>
+                            ))}
                     </Select>
                 </Form.Item>
             </Form>

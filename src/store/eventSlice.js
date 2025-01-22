@@ -160,13 +160,27 @@ const eventsSlice = createSlice({
       .addCase(createEvent.fulfilled, (state, action) => {
         state.loading = false;
         state.status = "succeeded";
-        resetStatus(state)
+        state.status = "idle"
       })
       .addCase(createEvent.rejected, (state, action) => {
         state.loading = false;
         state.status = "failed";
         state.error = action.payload;
       })
+        .addCase(updateEvent.pending, (state) => {
+        state.loading = true;
+        state.status = "loading";
+        })
+        .addCase(updateEvent.fulfilled, (state, action) => {
+            state.loading = false;
+            state.status = "succeeded";
+            state.status = "idle"
+        })
+        .addCase(updateEvent.rejected, (state, action) => {
+            state.loading = false;
+            state.status = "failed";
+            state.error = action.payload;
+        })
       .addCase(getAllEvents.pending, (state) => {
         state.loading = true;
         state.status = "loading";
@@ -183,6 +197,7 @@ const eventsSlice = createSlice({
       })
       .addCase(deleteEvent.fulfilled, (state, action) => {
         state.events = state.events.filter((event) => event.id !== action.payload);
+        state.status = "idle"
       });
   },
 });
