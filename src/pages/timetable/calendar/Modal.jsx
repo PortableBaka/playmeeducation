@@ -1,13 +1,13 @@
-import React, { useState, useEffect } from "react";
-import { Modal, Button, Form, Input, Select, TimePicker } from "antd";
+import { Button, Form, Input, Modal, Select, TimePicker } from "antd";
 import moment from "moment";
-import {toast} from "react-toastify";
-import {useDispatch, useSelector} from "react-redux";
-import {retrieveAllTeachersData} from "../../../store/employeesSlice";
-import {EventType} from "../../../common/types";
-import {FaRegTrashAlt} from "react-icons/fa";
-import {MyDatePicker} from "../../../components/common/DatePicker";
-import {useTranslation} from "react-i18next";
+import React, { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
+import { FaRegTrashAlt } from "react-icons/fa";
+import { useDispatch, useSelector } from "react-redux";
+import { toast } from "react-toastify";
+import { EventType } from "../../../common/types";
+import { MyDatePicker } from "../../../components/common/DatePicker";
+import { retrieveAllTeachersData } from "../../../store/employeesSlice";
 
 const { Option } = Select;
 
@@ -87,6 +87,16 @@ const CalendarModal = ({
         }
     };
 
+    const disabledHours = () => {
+        const hours = [];
+        for (let i = 0; i < 24; i++) {
+          if (i < 8 || i > 18) {
+            hours.push(i);
+          }
+        }
+        return hours;
+      };
+
     return (
         <Modal
             open={showModal}
@@ -163,11 +173,11 @@ const CalendarModal = ({
                                 if (!value || moment(value).isBefore(getFieldValue("end_time"))) {
                                     return Promise.resolve();
                                 }
-                                return Promise.reject(new Error());
+                                return Promise.reject(new Error("Start time should be before end time"));
                             },
                         }),]}
                     >
-                        <TimePicker format="HH:mm" minuteStep={5} hourStep={1} />
+                        <TimePicker format="HH:mm"  disabledHours={disabledHours} minuteStep={5} hourStep={1} />
                     </Form.Item>
 
                     <Form.Item
@@ -178,11 +188,11 @@ const CalendarModal = ({
                                 if (!value || moment(value).isAfter(getFieldValue("start_time"))) {
                                     return Promise.resolve();
                                 }
-                                return Promise.reject(new Error());
+                                return Promise.reject(new Error("End time should be after start time"));
                             },
                         }),]}
                     >
-                        <TimePicker format="HH:mm" minuteStep={5} hourStep={1} />
+                        <TimePicker format="HH:mm"disabledHours={disabledHours} minuteStep={5} hourStep={1} />
                     </Form.Item>
                 </div>
 

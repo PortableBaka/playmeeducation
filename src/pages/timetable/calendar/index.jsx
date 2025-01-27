@@ -2,17 +2,17 @@ import moment from "moment";
 import React, { useEffect, useState } from "react";
 import { Calendar, momentLocalizer } from "react-big-calendar";
 import "react-big-calendar/lib/css/react-big-calendar.css";
+import { useTranslation } from "react-i18next";
 import { useDispatch, useSelector } from "react-redux";
+import { Skeleton } from "../../../components/skeleton";
 import {
   createEvent,
   deleteEvent,
   getAllEvents,
   updateEvent, // Assuming this exists for editing events
 } from "../../../store/eventSlice";
-import "./styles.sass";
-import { useTranslation } from "react-i18next";
 import CalendarModal from "./Modal";
-import { Skeleton } from "../../../components/skeleton";
+import "./styles.sass";
 
 const localizer = momentLocalizer(moment);
 
