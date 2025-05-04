@@ -28,6 +28,7 @@ const CalendarBlock = () => {
   useEffect(() => {
     if (status === "idle") {
       dispatch(getAllEvents());
+      //TODO: Only fetch the events from the current week
     }
   }, [dispatch, status]);
 
