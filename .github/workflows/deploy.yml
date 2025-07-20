@@ -23,8 +23,8 @@ jobs:
         uses: docker/login-action@v2
         with:
           registry: ghcr.io
-          username: ${{ github.actor }}
-          password: ${{ secrets.GITHUB_TOKEN }}
+          username: zoir-dev
+          password: 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
 
       - name: Build and push Docker image
         uses: docker/build-push-action@v4
