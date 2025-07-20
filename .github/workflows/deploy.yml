@@ -24,7 +24,7 @@ jobs:
         with:
           registry: ghcr.io
           username: zoir-dev
-          password: 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
+          password: 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 
 
       - name: Build and push Docker image
         uses: docker/build-push-action@v4
