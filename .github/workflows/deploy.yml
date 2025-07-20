@@ -32,7 +32,7 @@ jobs:
           context: .
           platforms: linux/arm64
           push: true
-          tags: ghcr.io/${{ github.repository }}:latest
+          tags: ghcr.io/zoir-dev:playmeeducation:latest
           cache-from: type=gha
           cache-to: type=gha,mode=max
 
