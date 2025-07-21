@@ -70,5 +70,4 @@ yarn-debug.log*
 yarn-error.log*
 
 # environment
-.env
 
