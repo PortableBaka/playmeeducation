@@ -8,7 +8,7 @@ export const authorizeSuperAdmin = createAsyncThunk(
     try {
       const response = await instance.post(`/auth/login`, values, {
         headers: {
-          "Content-Type": "application/json",
+          "Content-Type": "application/x-www-form-urlencoded",
         },
       });
       setLoggedUser(response.data);
