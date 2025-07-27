@@ -26,10 +26,7 @@ const CalendarBlock = () => {
   const [selectedEvent, setSelectedEvent] = useState(null);
 
   useEffect(() => {
-    if (status === "idle") {
-      dispatch(getAllEvents());
-      //TODO: Only fetch the events from the current week
-    }
+    dispatch(getAllEvents());
   }, [dispatch, status]);
 
   const handleNavigate = (newDate) => {
@@ -89,50 +86,54 @@ const CalendarBlock = () => {
   };
 
   return (
-      <>
-        {loading && <Skeleton />}
-        <Calendar
-            localizer={localizer}
-            events={events || []}
-            startAccessor="start"
-            endAccessor="end"
-            selectable
-            onSelectSlot={(slotInfo) => {
-              setSelectedEvent({
-                date: moment(slotInfo.start).format("YYYY-MM-DD"),
-                start_time: moment(slotInfo.start).format(),
-                end_time: moment(slotInfo.end).format(),
-              });
-              handleShowModal();
-            }}
-            onSelectEvent={(event) => {
-              setSelectedEvent(event);
-              handleShowModal();
-            }}
-            defaultView="week"
-            views={["week"]}
-            date={date}
-            onNavigate={handleNavigate}
-            min={new Date(date.getFullYear(), date.getMonth(), date.getDate(), 8, 0)}
-            max={new Date(date.getFullYear(), date.getMonth(), date.getDate(), 19, 0)}
-            style={{ height: 600 }}
-            formats={{
-              timeGutterFormat: (date) => moment(date).format("HH:mm"),
-              eventTimeRangeFormat: ({ start, end }) =>
-                  `${moment(start).format("HH:mm")} - ${moment(end).format("HH:mm")}`,
-            }}
-            eventPropGetter={(event) => getEventStyle(event)}
-        />
-        <CalendarModal
-            showModal={showModal}
-            isEdit={!!selectedEvent?.id}
-            selectedEvent={selectedEvent}
-            handleEditEvent={handleEditEvent}
-            handleCreateEvent={handleCreateEvent}
-            handleDeleteEvent={handleDeleteEvent}
-            handleHideModal={handleHideModal}
-        />
-      </>
+    <>
+      {loading && <Skeleton />}
+      <Calendar
+        localizer={localizer}
+        events={events || []}
+        startAccessor="start"
+        endAccessor="end"
+        selectable
+        onSelectSlot={(slotInfo) => {
+          setSelectedEvent({
+            date: moment(slotInfo.start).format("YYYY-MM-DD"),
+            start_time: moment(slotInfo.start).format(),
+            end_time: moment(slotInfo.end).format(),
+          });
+          handleShowModal();
+        }}
+        onSelectEvent={(event) => {
+          setSelectedEvent(event);
+          handleShowModal();
+        }}
+        defaultView="week"
+        views={["week"]}
+        date={date}
+        onNavigate={handleNavigate}
+        min={
+          new Date(date.getFullYear(), date.getMonth(), date.getDate(), 8, 0)
+        }
+        max={
+          new Date(date.getFullYear(), date.getMonth(), date.getDate(), 19, 0)
+        }
+        style={{ height: 600 }}
+        formats={{
+          timeGutterFormat: (date) => moment(date).format("HH:mm"),
+          eventTimeRangeFormat: ({ start, end }) =>
+            `${moment(start).format("HH:mm")} - ${moment(end).format("HH:mm")}`,
+        }}
+        eventPropGetter={(event) => getEventStyle(event)}
+      />
+      <CalendarModal
+        showModal={showModal}
+        isEdit={!!selectedEvent?.id}
+        selectedEvent={selectedEvent}
+        handleEditEvent={handleEditEvent}
+        handleCreateEvent={handleCreateEvent}
+        handleDeleteEvent={handleDeleteEvent}
+        handleHideModal={handleHideModal}
+      />
+    </>
   );
 };
 

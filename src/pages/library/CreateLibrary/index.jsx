@@ -60,7 +60,7 @@ const CreateLibrary = () => {
 
   const { groups } = useSelector((state) => state.group);
   const [visibility, setVisibility] = useState("Все");
-  const [isFormDirty, setIsFormDirty] = useState(false);
+  const [_, setIsFormDirty] = useState(false);
   const [showExitModal, setShowExitModal] = useState(false);
   const [form] = Form.useForm();
   const [mediaType, setMediaType] = useState("image");
@@ -136,26 +136,6 @@ const CreateLibrary = () => {
     }
   };
 
-  const handleNavigation = (event) => {
-    if (isFormDirty) {
-      event.preventDefault();
-      setShowExitModal(true);
-    } else {
-      navigate("/kindergartenAdminLayout/libraryMainPage");
-      navigate(0);
-    }
-  };
-
-  const handleBranchNavigation = (event) => {
-    if (isFormDirty) {
-      event.preventDefault();
-      setShowExitModal(true);
-    } else {
-      navigate("/branchAdminPage/libraryMainPage");
-      navigate(0);
-    }
-  };
-
   const handleSubmit = async (values) => {
     if (mediaType === "unknown") {
       message.error(`Unsupported media type: ${mediaType}.`);
@@ -194,10 +174,10 @@ const CreateLibrary = () => {
             <div className="headerTitle">
               <Link
                 className="closePage"
-                onClick={
+                to={
                   AdminType === UserType.KindergartenAdmin
-                    ? handleNavigation
-                    : handleBranchNavigation
+                    ? "/kindergartenAdminLayout/libraryMainPage"
+                    : "/branchAdminPage/libraryMainPage"
                 }
               >
                 <IoMdClose />

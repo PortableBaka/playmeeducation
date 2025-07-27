@@ -112,7 +112,7 @@ const KindergartenBranchAdminLayout = () => {
                   style={{ width: "100%", border: "none" }}
                   dropdownStyle={{ textAlign: "center" }}
                 >
-                  <Option value="uzbekcha" className="langText">
+                  <Option value="uz" className="langText">
                     <img
                       src={globalIcon}
                       alt="Globe"
@@ -120,8 +120,14 @@ const KindergartenBranchAdminLayout = () => {
                     />
                     Uzbekcha
                   </Option>
-                  <Option value="russia">Russia</Option>
-                  {/* <Option value="english">English</Option> */}
+                  <Option value="ru">
+                    <img
+                      src={globalIcon}
+                      alt="Globe"
+                      style={{ marginRight: 8 }}
+                    />
+                    Русский
+                  </Option>
                 </Select>
                 <Select
                   value={branchDataById?.name}

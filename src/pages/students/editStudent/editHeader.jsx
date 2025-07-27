@@ -9,7 +9,6 @@ import { useTranslation } from "react-i18next";
 const EditHeader = ({ student, setShowExitModal, handleDelete }) => {
   const { t } = useTranslation();
 
-
   const [open, setOpen] = useState(false);
   const hide = () => {
     setOpen(false);
@@ -33,41 +32,38 @@ const EditHeader = ({ student, setShowExitModal, handleDelete }) => {
     handleDelete(event, student);
   };
   return (
-    <div className='header'>
-      <div className='editKindergartenContainer'>
-        <div className='headerBox'>
-          <div className='headerTitle'>
-            <div
-              className='closePage'
-              onClick={() => setShowExitModal(true)}
-            >
+    <div className="header">
+      <div className="editKindergartenContainer">
+        <div className="headerBox">
+          <div className="headerTitle">
+            <div className="closePage" onClick={() => setShowExitModal(true)}>
               <IoMdClose />
             </div>
-            <h3 className='title'>
+            <h3 className="title">
               {t("student")}
-              <span className='titleGray'>
+              <span className="titleGray">
                 &nbsp;{t("was_created")}&nbsp;
                 {loadingDate ? <Skeleton width={100} /> : `${formattedDate}`}
               </span>
             </h3>
           </div>
-          <div className='headerBtn'>
+          <div className="headerBtn">
             <Popover
-              placement='bottom'
-              trigger='click'
+              placement="bottom"
+              trigger="click"
               open={open}
               onOpenChange={handleOpenChange}
               content={
-                <div className='deletePopover'>
+                <div className="deletePopover">
                   <Alert
                     message={t("delete_alert_message")}
                     banner
-                    className='deleteAlert'
+                    className="deleteAlert"
                   />
-                  <div className='btnGroup'>
+                  <div className="btnGroup">
                     <Button onClick={hide}>{t("cancel")}</Button>
                     <Button
-                      type='primary'
+                      type="primary"
                       onClick={(e) => onDeleteClick(e, student?.id)}
                     >
                       {t("cancel")}
@@ -76,15 +72,9 @@ const EditHeader = ({ student, setShowExitModal, handleDelete }) => {
                 </div>
               }
             >
-              <Button
-                icon={<FaRegTrashAlt />}
-                danger
-              ></Button>
+              <Button icon={<FaRegTrashAlt />} danger></Button>
             </Popover>
-            <Button
-              htmlType='submit'
-              type='primary'
-            >
+            <Button htmlType="submit" type="primary">
               {t("save")}
             </Button>
           </div>

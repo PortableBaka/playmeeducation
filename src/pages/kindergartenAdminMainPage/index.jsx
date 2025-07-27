@@ -13,10 +13,8 @@ const KindergartensAdminMainPage = () => {
   const { totalInfo, status } = useSelector((state) => state?.kindergartens);
 
   useEffect(() => {
-    if (status === "idle") {
-      dispatch(retrieveKindergartenAggregatedInfo());
-    }
-  }, [dispatch, status]);
+    dispatch(retrieveKindergartenAggregatedInfo());
+  }, [dispatch]);
 
   const cardInfoBlock = [
     {

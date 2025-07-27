@@ -1,5 +1,4 @@
 import { Tag } from "antd";
-import { t } from "i18next";
 
 export const GetBasicTableColumns = [
   {
@@ -17,7 +16,7 @@ export const GetBasicTableColumns = [
   {
     title: "Филиалы",
     dataIndex: "total_branches",
-    key: "total_branches", 
+    key: "total_branches",
     render: (total_branches) => (
       <p className="tableTextInner">
         {total_branches > 0 ? total_branches : 0}

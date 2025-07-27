@@ -6,8 +6,9 @@ import { Link } from "react-router-dom";
 import { FormatDate } from "../../kindergarten/updateKindergarten/formatData";
 import { Skeleton } from "../../../components/skeleton";
 import { useTranslation } from "react-i18next";
+import { AdminType, UserType } from "../../../config";
 
-const EditHeader = ({ groups, handleDelete, handleNavigation }) => {
+const EditHeader = ({ groups, handleDelete }) => {
   const { t } = useTranslation();
 
   const [open, setOpen] = useState(false);
@@ -38,7 +39,14 @@ const EditHeader = ({ groups, handleDelete, handleNavigation }) => {
       <div className="editKindergartenContainer">
         <div className="headerBox">
           <div className="headerTitle">
-            <Link className="closePage" onClick={handleNavigation}>
+            <Link
+              className="closePage"
+              to={
+                AdminType === UserType.KindergartenAdmin
+                  ? "/kindergartenAdminLayout/groups"
+                  : "/branchAdminPage/groups"
+              }
+            >
               <IoMdClose />
             </Link>
             <h3 className="title">

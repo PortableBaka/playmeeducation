@@ -64,7 +64,7 @@ export const AppRouter = () => {
               element={<KindergartensAdminMainPage />}
             />
             <Route path="libraryMainPage" element={<LibraryMainPage />} />
-            <Route path='timetable' element={<Timetable/>}/>
+            <Route path="timetable" element={<Timetable />} />
             <Route path="students" element={<StudentsMain />} />
             <Route path="groups" element={<GroupMain />} />
             <Route path="leads" element={<LeadsMainPage />} />

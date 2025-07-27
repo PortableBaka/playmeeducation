@@ -2,6 +2,7 @@ import { Input, Space } from "antd";
 import React from "react";
 import "./styles.sass";
 import { useTranslation } from "react-i18next";
+import { IMaskInput } from "react-imask";
 
 const CreationForm = ({
   viewKindergartensData,
@@ -41,26 +42,21 @@ const CreationForm = ({
       </div>
       <div className="inputBox">
         <label htmlFor="phone_number" className="label">
-        {t("phone_number")}
+          {t("phone_number")}
         </label>
-        <Space.Compact>
-          <Input
-            size="large"
-            addonBefore="+998"
-            id="phone_number"
-            name="phone_number"
-            placeholder={
-              viewKindergartensData
-                ? viewKindergartensData?.phone_number
-                : t("phone_number_admin")
-            }
-            value={formData?.phone_number}
-            onChange={handleChange}
-            defaultValue={viewKindergartensData?.phone_number}
-            disabled={disabled}
-            maxLength={9}
-          />
-        </Space.Compact>
+        <IMaskInput
+          mask="+998 00 000-00-00"
+          className="ant-input inputPhone"
+          placeholder={t("phone_number_admin")}
+          value={formData?.phone_number}
+          onChange={(e) =>
+            handleChange({
+              ...formData,
+              phone_number: e.target.value,
+            })
+          }
+          maxLength={17}
+        />
         {errors?.phone_number && (
           <div className="inputErrorMessage">{errors?.phone_number}</div>
         )}
@@ -88,7 +84,7 @@ const CreationForm = ({
       </div>
       <div className="inputBox">
         <label htmlFor="kindergarden_admin_usernam" className="label">
-        {t("login")}
+          {t("login")}
         </label>
         <Input
           size="large"

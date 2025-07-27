@@ -1,4 +1,4 @@
- import React, { useEffect, useMemo, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { Input, theme } from "antd";
 import { SearchOutlined } from "@ant-design/icons";
 import { useDispatch, useSelector } from "react-redux";
@@ -35,10 +35,8 @@ const StudentsMain = () => {
     [students, searchTerm]
   );
   useEffect(() => {
-    if (status === "idle") {
-      dispatch(retrieveStudents());
-    }
-  }, [dispatch, status]);
+    dispatch(retrieveStudents());
+  }, [dispatch]);
 
   useEffect(() => {
     if (searchTerm && searchFilteredData.length === 0) {

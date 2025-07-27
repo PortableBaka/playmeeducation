@@ -32,10 +32,8 @@ const GroupMain = () => {
   );
 
   useEffect(() => {
-    if (status === "idle") {
-      dispatch(retrieveGroupData());
-    }
-  }, [groups, dispatch]);
+    dispatch(retrieveGroupData());
+  }, []);
 
   const lastIndexPlusOne = groups?.length > 0 ? groups?.length : 0;
 
@@ -47,7 +45,7 @@ const GroupMain = () => {
       setInputBorderColor("#00000026");
       setIconColor("");
     }
-  });
+  }, []);
 
   return (
     <div className="groupsMainPageContentContainer">

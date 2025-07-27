@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Layout, Menu, Select, theme } from "antd";
 import { Outlet, useLocation, useNavigate } from "react-router-dom";
 import { roleAvailablePages } from "../config";
@@ -13,7 +13,7 @@ const { Sider } = Layout;
 const { Option } = Select;
 
 const SuperAdminPageLayout = (props) => {
-  const { t } = useTranslation();
+  const { i18n } = useTranslation();
 
   const navigate = useNavigate();
   const location = useLocation();
@@ -22,11 +22,16 @@ const SuperAdminPageLayout = (props) => {
   } = theme.useToken();
   const user = getAuthenticatedUser()?.user;
   const availablePages = roleAvailablePages[user?.roleCode];
+  const [lang, setLang] = useState(localStorage.getItem("language") || "ru");
 
-  const [selectedLanguage, setSelectedLanguage] = useState("uzbekcha");
+  useEffect(() => {
+    handleLanguageChange(lang);
+  }, [lang]);
 
   const handleLanguageChange = (value) => {
-    setSelectedLanguage(value);
+    i18n.changeLanguage(value);
+    setLang(value);
+    localStorage.setItem("language", value);
   };
 
   const getDefaultSelectedKey = () => {
@@ -80,12 +85,12 @@ const SuperAdminPageLayout = (props) => {
               defaultSelectedKeys={[getDefaultSelectedKey()]}
             >
               <Select
-                value={selectedLanguage}
+                value={i18n.language || "ru"}
                 onChange={handleLanguageChange}
                 style={{ width: "100%", border: "none" }}
                 dropdownStyle={{ textAlign: "center" }}
               >
-                <Option value="uzbekcha" className="langText">
+                <Option value="uz" className="langText">
                   <img
                     src={globalIcon}
                     alt="Globe"
@@ -93,26 +98,24 @@ const SuperAdminPageLayout = (props) => {
                   />
                   Uzbekcha
                 </Option>
-                <Option value="russia">Russia</Option>
-                <Option value="english">English</Option>
+                <Option value="ru">
+                  <img
+                    src={globalIcon}
+                    alt="Globe"
+                    style={{ marginRight: 8 }}
+                  />
+                  Русский
+                </Option>
               </Select>
               {availablePages?.map((item) => (
                 <Menu.Item
                   key={item.key}
                   icon={item.icon}
-                  // onClick={
-                  //   item.label
-                  //     ? item.label === t("exit")
-                  //       ? handleLogout
-                  //       : () => navigate(item.path)
-                  //     : () => navigate(item.path)
-                  // }
                   onClick={
                     item.label
                       ? item.label === "exit"
                         ? handleLogout
-                        : () =>
-                          navigate(item.path)
+                        : () => navigate(item.path)
                       : () => navigate(item.path)
                   }
                   disabled={item.label === "Админ Playme"}

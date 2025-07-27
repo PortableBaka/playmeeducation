@@ -14,8 +14,7 @@ const onFinish = async (values, dispatch, navigate) => {
     const response = await dispatch(authorizeSuperAdmin(values));
     if (response.meta.requestStatus === "fulfilled") {
       toast.success(t("welcome"));
-
-      const userRole = localStorage.getItem("adminType");
+      const userRole = response.payload?.admin_type;
 
       if (userRole === "superadmin") {
         navigate("/superAdminPage/kindergartenTable", { replace: true });

@@ -148,7 +148,6 @@ const employeesSlice = createSlice({
     },
     resetStatus: (state) => {
       state.status = "idle";
-      state.isLoading = false;
       state.error = null;
       state.success = false;
     },

@@ -2,9 +2,9 @@ import React, { useEffect, useState } from "react";
 import { Alert, Button, Popover } from "antd";
 import { FaRegTrashAlt } from "react-icons/fa";
 import { IoMdClose } from "react-icons/io";
-import { Link } from "react-router-dom";
 import { FormatDate } from "../../kindergarten/updateKindergarten/formatData";
 import { Skeleton } from "../../../components/skeleton";
+import { useTranslation } from "react-i18next";
 
 const EditHeader = ({ student, setShowExitModal, handleDelete }) => {
   const [open, setOpen] = useState(false);
@@ -14,6 +14,8 @@ const EditHeader = ({ student, setShowExitModal, handleDelete }) => {
   const handleOpenChange = (newOpen) => {
     setOpen(newOpen);
   };
+
+  const { t } = useTranslation();
 
   const [loadingDate, setLoadingDate] = useState(true);
   const [formattedDate, setFormattedDate] = useState(0);

@@ -16,12 +16,12 @@ const CreateGroup = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const { groups } = useSelector((state) => state.group);
-  const { allTeachers, status } = useSelector((state) => state.employee);
+  const { allTeachers } = useSelector((state) => state.employee);
   const selectedBranchId = useSelector(
     (state) => state?.branches?.selectedBranchId
   );
   const [showExitModal, setShowExitModal] = useState(false);
-  const [isFormDirty, setIsFormDirty] = useState(false);
+  const [_, setIsFormDirty] = useState(false);
   const initialFormData = {
     name: "",
     employee_id: 0,
@@ -81,32 +81,13 @@ const CreateGroup = () => {
     setShowExitModal(false);
   };
 
-  const handleNavigation = (event) => {
-    if (isFormDirty) {
-      event.preventDefault();
-      setShowExitModal(true);
-    } else {
-      navigate("/kindergartenAdminLayout/groups");
-      navigate(0);
-    }
-  };
-  const handleBranchNavigation = (event) => {
-    if (isFormDirty) {
-      event.preventDefault();
-      setShowExitModal(true);
-    } else {
-      navigate("/branchAdminPage/groups");
-      navigate(0);
-    }
-  };
-
   const handleSubmit = async (e) => {
     e.preventDefault();
     const updatedFormData = {
       ...formData,
       branch_id: selectedBranchId,
     };
-    dispatch(createGroupData(updatedFormData)).then((res) => {
+    dispatch(createGroupData(updatedFormData)).then(() => {
       if (AdminType === UserType.KindergartenAdmin) {
         navigate("/kindergartenAdminLayout/groups");
         navigate(0);
@@ -125,10 +106,10 @@ const CreateGroup = () => {
             <div className="headerTitle">
               <Link
                 className="closePage"
-                onClick={
+                to={
                   AdminType === UserType.KindergartenAdmin
-                    ? handleNavigation
-                    : handleBranchNavigation
+                    ? "/kindergartenAdminLayout/groups"
+                    : "/branchAdminPage/groups"
                 }
               >
                 <IoMdClose />

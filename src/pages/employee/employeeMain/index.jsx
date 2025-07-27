@@ -23,10 +23,8 @@ const EmployeeMain = () => {
     (state) => state?.branches?.selectedBranchId
   );
   useEffect(() => {
-    if (status === "idle") {
-      dispatch(retrieveAllData({ selectedBranchId }));
-    }
-  }, [dispatch, selectedBranchId, status]);
+    dispatch(retrieveAllData({ selectedBranchId }));
+  }, [dispatch, selectedBranchId]);
   const lastIndexPlusOne = employeeData?.length > 0 ? employeeData?.length : 0;
 
   const filterData = (employeeData, searchTerm) => {
@@ -48,7 +46,7 @@ const EmployeeMain = () => {
       setInputBorderColor("#00000026");
       setIconColor("");
     }
-  });
+  }, [searchTerm, searchFilteredData]);
 
   return (
     <div className="groupsMainPageContentContainer">

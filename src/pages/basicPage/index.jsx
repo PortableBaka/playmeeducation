@@ -26,10 +26,8 @@ const BasicPage = () => {
   const [inputBorderColor, setInputBorderColor] = useState("#00000026");
 
   useEffect(() => {
-    if (status === "idle") {
-      dispatch(retrieveKindergartens());
-    }
-  }, [dispatch, status]);
+    dispatch(retrieveKindergartens());
+  }, [dispatch]);
 
   useEffect(() => {
     if (searchTerm) {

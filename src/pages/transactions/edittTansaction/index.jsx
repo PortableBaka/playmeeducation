@@ -16,6 +16,7 @@ import { months } from "../createTransaction/getMonth";
 import { FaRegTrashAlt } from "react-icons/fa";
 import { retrieveGroupData } from "../../../store/groupSlice";
 import { useTranslation } from "react-i18next";
+import { paymentTypes } from "../data";
 
 const TransactionCreate = () => {
   const { t } = useTranslation();
@@ -31,7 +32,6 @@ const TransactionCreate = () => {
   );
   const { groups } = useSelector((state) => state.group);
 
-  const [isFormDirty] = useState(false);
   const [open, setOpen] = useState(false);
 
   const [form] = Form.useForm();
@@ -58,31 +58,17 @@ const TransactionCreate = () => {
   const handleOpenChange = (newOpen) => {
     setOpen(newOpen);
   };
-  const handleNavigation = (event) => {
-    if (isFormDirty) {
-      event.preventDefault();
-    } else {
-      navigate("/kindergartenAdminLayout/transactions");
-      navigate(0);
-    }
-  };
-  const handleBranchNavigation = (event) => {
-    if (isFormDirty) {
-      event.preventDefault();
-    } else {
-      navigate("/branchAdminPage/transactions");
-      navigate(0);
-    }
-  };
+
   const handleDelete = (e) => {
     e.preventDefault();
-    dispatch(deleteTransaction(id));
-    dispatch(resetStatus());
-    if (AdminType === UserType.KindergartenAdmin) {
-      navigate("/kindergartenAdminLayout/transactions");
-    } else {
-      navigate("/branchAdminPage/transactions");
-    }
+    dispatch(deleteTransaction(id)).then(() => {
+      dispatch(resetStatus());
+      if (AdminType === UserType.KindergartenAdmin) {
+        navigate("/kindergartenAdminLayout/transactions");
+      } else {
+        navigate("/branchAdminPage/transactions");
+      }
+    });
   };
 
   return (
@@ -93,10 +79,10 @@ const TransactionCreate = () => {
             <div className="headerTitle">
               <Link
                 className="closePage"
-                onClick={
+                to={
                   AdminType === UserType.KindergartenAdmin
-                    ? handleNavigation
-                    : handleBranchNavigation
+                    ? "/kindergartenAdminLayout/transactions"
+                    : "/branchAdminPage/transactions"
                 }
               >
                 <IoMdClose />
@@ -171,20 +157,49 @@ const TransactionCreate = () => {
           >
             <Input disabled placeholder="60000" size="large" />
           </Form.Item>
-          <Form.Item
-            label={t("transaction_date")}
-            style={{ margin: 0 }}
-            rules={[{ required: true, message: t("input_payment_date") }]}
+          <div
+            style={{
+              display: "grid",
+              gridTemplateColumns: "1fr 1fr",
+              gap: "16px",
+            }}
           >
-            <IMaskInput
-              className="ant-input inputData"
-              mask={Mask}
-              maxLength={10}
-              placeholder={form.getFieldValue("date")}
-              disabled
-            />
-            <p className="messageText">{t("payment_date")}</p>
-          </Form.Item>
+            <Form.Item
+              label={t("transaction_date")}
+              style={{ margin: 0 }}
+              rules={[{ required: true, message: t("input_payment_date") }]}
+            >
+              <IMaskInput
+                className="ant-input inputData"
+                mask={Mask}
+                maxLength={10}
+                placeholder={form.getFieldValue("date")}
+                disabled
+              />
+              <p className="messageText">{t("payment_date")}</p>
+            </Form.Item>
+            <Form.Item
+              name="payment_type"
+              label={t("payment_method")}
+              rules={[{ required: true, message: t("choose_payment_method") }]}
+            >
+              <Select
+                size="large"
+                placeholder={t("payment_method")}
+                disabled
+                onChange={(value) => form.setFieldValue("payment_type", value)}
+              >
+                {paymentTypes.map((paymentType) => (
+                  <Select.Option
+                    key={paymentType.value}
+                    value={paymentType.value}
+                  >
+                    {paymentType.label}
+                  </Select.Option>
+                ))}
+              </Select>
+            </Form.Item>
+          </div>
           <div className="rowBox">
             <div className="colBox">
               <Form.Item

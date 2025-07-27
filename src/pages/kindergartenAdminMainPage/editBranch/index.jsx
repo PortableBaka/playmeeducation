@@ -11,22 +11,21 @@ import { toast } from "react-toastify";
 import { editBranch } from "../../../store/branchSlice";
 import "./styles.sass";
 import { useTranslation } from "react-i18next";
+import { IMaskInput } from "react-imask";
 
 const EditKindergartenAndBranchData = () => {
   const { t } = useTranslation();
   const dispatch = useDispatch();
 
-  const { branchInfo, status } = useSelector((state) => state.kindergartens);
+  const { branchInfo } = useSelector((state) => state.kindergartens);
   const [editFormData, setEditFormData] = useState(branchInfo);
   const selectedBranchId = useSelector(
     (state) => state?.branches?.selectedBranchId
   );
 
   useEffect(() => {
-    if (status === "idle") {
-      dispatch(retrieveKindergartensById());
-    }
-  }, [dispatch, status]);
+    dispatch(retrieveKindergartensById());
+  }, [dispatch]);
 
   useEffect(() => {
     if (branchInfo) {
@@ -49,8 +48,9 @@ const EditKindergartenAndBranchData = () => {
         ...editFormData,
         phone_number: "+998" + editFormData.phone_number,
       })
-    );
-    toast.success(t("kindergarten_success_update"));
+    ).then(() => {
+      toast.success(t("kindergarten_success_update"));
+    });
   };
 
   const handleBranchSubmit = (e, id) => {
@@ -64,8 +64,9 @@ const EditKindergartenAndBranchData = () => {
         ...selectedBranch,
         phone_number: "+998" + selectedBranch.phone_number,
       })
-    );
-    toast.success(t("branch_success_update"));
+    ).then(() => {
+      toast.success(t("branch_success_update"));
+    });
   };
 
   return (
@@ -103,26 +104,22 @@ const EditKindergartenAndBranchData = () => {
               }
             />
           </div>
-          <div className="inputBox">
+          <div className="inputBox formBox">
             <label htmlFor="phone_number" className="label">
               {t("phone_number")}
             </label>
-            <Space.Compact>
-              <Input
-                size="large"
-                addonBefore="+998"
-                id="phone_number"
-                name="phone_number"
-                value={editFormData?.phone_number}
-                onChange={(e) =>
-                  setEditFormData({
-                    ...editFormData,
-                    phone_number: e.target.value,
-                  })
-                }
-                maxLength={9}
-              />
-            </Space.Compact>
+            <IMaskInput
+              mask="+998 00 000-00-00"
+              className="ant-input inputPhone"
+              value={editFormData?.phone_number}
+              onChange={(e) =>
+                setEditFormData({
+                  ...editFormData,
+                  phone_number: e.target.value,
+                })
+              }
+              maxLength={17}
+            />
           </div>
           <div className="inputBox">
             <label htmlFor="payment_amount" className="label">
@@ -235,11 +232,15 @@ const EditKindergartenAndBranchData = () => {
                           {t("phone_number")}
                         </label>
                         <Space.Compact>
-                          <Input
+                          <IMaskInput
                             size="large"
-                            addonBefore="+998"
+                            mask="+998 00 000-00-00"
                             id={`branch-phone_number-${item.id}`}
                             name="phone_number"
+                            className="ant-input inputPhone"
+                            style={{
+                              width: "100%",
+                            }}
                             value={item?.phone_number}
                             onChange={(e) => {
                               const newBranches = editFormData.branches.map(
@@ -256,7 +257,7 @@ const EditKindergartenAndBranchData = () => {
                                 branches: newBranches,
                               });
                             }}
-                            maxLength={9}
+                            maxLength={17}
                           />
                         </Space.Compact>
                       </div>

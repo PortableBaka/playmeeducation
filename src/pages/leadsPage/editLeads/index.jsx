@@ -23,7 +23,7 @@ const EditLeads = () => {
   const dispatch = useDispatch();
   const dateMask = "0000-00-00";
   const Mask = [{ mask: dateMask }];
-  const [isFormDirty, setIsFormDirty] = useState(false);
+  const [_, setIsFormDirty] = useState(false);
   const [showExitModal, setShowExitModal] = useState(false);
   const selectedBranchId = useSelector(
     (state) => state?.branches?.selectedBranchId
@@ -33,19 +33,6 @@ const EditLeads = () => {
   useEffect(() => {
     dispatch(retrieveLeadsDataById(id));
   }, [id, dispatch]);
-
-  useEffect(() => {
-    if (leadById) {
-      const formattedPhoneNumber = leadById.phone_number.startsWith("+998")
-        ? leadById.phone_number.slice(4)
-        : leadById.phone_number;
-
-      form.setFieldsValue({
-        ...leadById,
-        phone_number: formattedPhoneNumber,
-      });
-    }
-  }, [leadById, form]);
 
   const handleInputChange = () => {
     setIsFormDirty(true);
@@ -77,16 +64,17 @@ const EditLeads = () => {
   const handleFinish = (values) => {
     const updatedValues = {
       ...values,
-      phone_number: `+998${values.phone_number}`,
+      phone_number: `${values.phone_number}`,
       branch_id: selectedBranchId,
       id: leadById.id,
     };
-    dispatch(editLeadData(updatedValues));
-    if (AdminType === UserType.KindergartenAdmin) {
-      navigate("/kindergartenAdminLayout/leads");
-    } else {
-      navigate("/branchAdminPage/leads");
-    }
+    dispatch(editLeadData(updatedValues)).then(() => {
+      if (AdminType === UserType.KindergartenAdmin) {
+        navigate("/kindergartenAdminLayout/leads");
+      } else {
+        navigate("/branchAdminPage/leads");
+      }
+    });
   };
 
   return (
@@ -139,11 +127,12 @@ const EditLeads = () => {
             name="phone_number"
             rules={[{ required: true, message: t("input_phone_number") }]}
           >
-            <Input
-              addonBefore="+998"
+            <IMaskInput
+              mask={"+998 00 000-00-00"}
+              className="ant-input inputData"
               placeholder={t("another_parent_phone_number")}
               size="large"
-              maxLength={9}
+              maxLength={17}
             />
           </Form.Item>
 

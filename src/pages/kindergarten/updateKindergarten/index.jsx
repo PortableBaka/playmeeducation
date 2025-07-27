@@ -10,6 +10,7 @@ import { FaRegTrashAlt } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 import "./styles.sass";
 import { useTranslation } from "react-i18next";
+import { IMaskInput } from "react-imask";
 
 const UpdateKindergarten = () => {
   const { t } = useTranslation();
@@ -46,12 +47,12 @@ const UpdateKindergarten = () => {
         ...kindergarten,
         active: status,
       });
+      handleGetKindergarten();
       toast.success(
         status
           ? "Детский сад успешно активирован"
           : "Детский сад успешно деактивирован"
       );
-      handleGetKindergarten();
     } catch (error) {
       toast.error("Ошибка при изменении статуса!");
       console.error(error);
@@ -76,7 +77,7 @@ const UpdateKindergarten = () => {
       toast.success("Детский сад успешно удален");
       navigate("/superAdminPage/kindergartenTable");
     } catch (error) {
-      toast.error("Ошибка при удалении!");
+      toast.error(error?.response?.data?.detail);
       console.error(error);
     }
   };
@@ -94,34 +95,32 @@ const UpdateKindergarten = () => {
       toast.success("Филиал успешно удален");
       setOpenDelete(false);
     } catch (error) {
-      toast.error("Ошибка при удалении!");
+      toast.error(error?.response?.data?.detail);
       console.error(error);
     }
   };
 
   const handleChangeKinderGardenBranches = async () => {
-    branchForms.map(async (branch, index) => {
-      if (branch.kindergarden_id && branch.id) {
-        const { id, ...rest } = branch;
-        try {
-          await instance.put(`/branches/${branch.id}`, rest);
-        } catch (error) {
-          toast.error("Ошибка при обновлении!");
-          console.error(error);
-        }
-      } else {
-        try {
-          await instance.post(`/branches`, {
-            ...branch,
-            kindergarden_id: kindergarten.id,
-          });
-          toast.success("Филиал успешно добавлен");
-        } catch (error) {
-          toast.error("Ошибка при добавлении!");
-          console.error(error);
-        }
-      }
-    });
+    try {
+      await Promise.all(
+        branchForms.map(async (branch) => {
+          if (branch.kindergarden_id && branch.id) {
+            const { id, ...rest } = branch;
+            await instance.put(`/branches/${branch.id}`, rest);
+          } else {
+            await instance.post(`/branches`, {
+              ...branch,
+              kindergarden_id: kindergarten.id,
+            });
+          }
+        })
+      );
+      return { success: true };
+    } catch (error) {
+      toast.error(error?.response?.data?.detail);
+      console.error(error);
+      return { success: false };
+    }
   };
 
   const handleChangeKinderGarden = async (e) => {
@@ -135,14 +134,17 @@ const UpdateKindergarten = () => {
       kindergarden_admin_password: e.target.kindergarten_password.value,
     };
 
-    try {
-      await handleChangeKinderGardenBranches();
-      await instance.put(`/kindergardens/${kindergarten.id}`, formData);
-      navigate("/superAdminPage/kindergartenTable");
-      toast.success("Детский сад успешно обновлен");
-    } catch (error) {
-      toast.error("Ошибка при обновлении!");
-      console.error(error);
+    const res = await handleChangeKinderGardenBranches();
+
+    if (res.success) {
+      try {
+        await instance.put(`/kindergardens/${kindergarten.id}`, formData);
+        navigate("/superAdminPage/kindergartenTable");
+        toast.success("Детский сад успешно обновлен");
+      } catch (error) {
+        toast.error(error?.response?.data?.detail);
+        console.error(error);
+      }
     }
   };
 
@@ -200,12 +202,12 @@ const UpdateKindergarten = () => {
             <FaCircleInfo />
           </div>
           <div className="exitModalWarningText">
-            <h3>Вы уверены, что хотите выйти?</h3>
-            <p>Несохраненные данные удалятся при выходе.</p>
+            <h3>{t("sure_to_exit_message")}</h3>
+            <p>{t("exit_message")}</p>
             <div className="modalActions">
-              <button onClick={() => handleClose(false)}>Отменить</button>
+              <button onClick={() => handleClose(false)}>{t("cancel")}</button>
               <button className="exitBtn" onClick={() => handleClose(true)}>
-                Подтвердить
+                {t("confirm")}
               </button>
             </div>
           </div>
@@ -218,7 +220,7 @@ const UpdateKindergarten = () => {
               <div className="exit" onClick={() => handleClickOpen()}>
                 <IoMdClose />
               </div>
-              <h3>Редактирование</h3>
+              <h3>{t("edit")}</h3>
             </div>
             <div className="createKindergarten_header_save">
               <Popover
@@ -263,7 +265,7 @@ const UpdateKindergarten = () => {
                   <FaRegTrashAlt />
                 </div>
               </Popover>
-              {isActiveKindergarden ? (
+              {kindergarten?.active ? (
                 <button
                   type="button"
                   className="deactivate"
@@ -272,7 +274,7 @@ const UpdateKindergarten = () => {
                     changeActiveStatus(false);
                   }}
                 >
-                  Деактивировать
+                  {t("deactivate")}
                 </button>
               ) : (
                 <button
@@ -283,18 +285,18 @@ const UpdateKindergarten = () => {
                     changeActiveStatus(true);
                   }}
                 >
-                  Активировать
+                  {t("activate")}
                 </button>
               )}
               <button className="save" form="kindergartenForm">
-                Сохранить
+                {t("save")}
               </button>
             </div>
           </div>
         </div>
         <div className="createKindergarten_content">
           <form id="kindergartenForm" onSubmit={handleChangeKinderGarden}>
-            <label htmlFor="kindergarten_name">Название</label>
+            <label htmlFor="kindergarten_name">{t("name")}</label>
             <input
               required
               type="text"
@@ -303,15 +305,15 @@ const UpdateKindergarten = () => {
               onChange={(e) =>
                 setKindergarten({ ...kindergarten, name: e.target.value })
               }
-              placeholder="Название детского сада"
+              placeholder={t("name") + " детского сада"}
             />
 
             <label htmlFor="kindergarten_phone">Телефон</label>
             <div className="kindergartenForm_phone">
-              <div className="prePhone">+998</div>
-              <input
+              <IMaskInput
                 required
-                type="number"
+                mask="+998 00 000-00-00"
+                maxLength={17}
                 id="kindergarten_phone"
                 value={kindergarten?.phone_number}
                 onChange={(e) =>
@@ -433,7 +435,7 @@ const UpdateKindergarten = () => {
                       </Popover>
                     )}
                   </div>
-                  <label htmlFor={`branch_name_${index}`}>Название</label>
+                  <label htmlFor={`branch_name_${index}`}>{t("name")}</label>
                   <input
                     required
                     type="text"
@@ -442,16 +444,16 @@ const UpdateKindergarten = () => {
                     onChange={(e) =>
                       handleBranchChange(index, "name", e.target.value)
                     }
-                    placeholder="Название филиала"
+                    placeholder={t("filial_name")}
                   />
 
-                  <label htmlFor={`branch_phone_${index}`}>Телефон</label>
+                  <label htmlFor={`branch_phone_${index}`}>{t("phone")}</label>
                   <div className="kindergartenForm_phone">
-                    <div className="prePhone">+998</div>
-                    <input
+                    <IMaskInput
                       required
-                      type="number"
                       id={`branch_phone_${index}`}
+                      mask="+998 00 000-00-00"
+                      maxLength={17}
                       value={branch?.phone_number}
                       onChange={(e) =>
                         handleBranchChange(
@@ -464,7 +466,9 @@ const UpdateKindergarten = () => {
                     />
                   </div>
 
-                  <label htmlFor={`branch_location_${index}`}>Локация</label>
+                  <label htmlFor={`branch_location_${index}`}>
+                    {t("insert_location")}
+                  </label>
                   <input
                     type="text"
                     required
@@ -473,7 +477,7 @@ const UpdateKindergarten = () => {
                     onChange={(e) =>
                       handleBranchChange(index, "location", e.target.value)
                     }
-                    placeholder="Локация филиала"
+                    placeholder={t("insert_location")}
                   />
 
                   {branchForms.length < 2 && (
@@ -492,7 +496,7 @@ const UpdateKindergarten = () => {
                     Логин
                   </label>
                   <input
-                    required
+                    required={branchForms.length > 1}
                     type="text"
                     id={`branch_login_${index}`}
                     value={branch?.branch_admin_username}
@@ -508,7 +512,7 @@ const UpdateKindergarten = () => {
 
                   <label htmlFor={`branch_password_${index}`}>Пароль</label>
                   <input
-                    required
+                    required={branchForms.length > 1}
                     type="text"
                     id={`branch_password_${index}`}
                     value={branch?.branch_admin_password}

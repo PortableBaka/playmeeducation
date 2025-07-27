@@ -46,10 +46,8 @@ const EditGroup = () => {
   }, [dispatch, status]);
 
   useEffect(() => {
-    if (status === "idle") {
-      dispatch(retrieveGroupDataById());
-    }
-  }, [status, dispatch]);
+    dispatch(retrieveGroupDataById());
+  }, [dispatch]);
 
   useEffect(() => {
     if (groupDataById) {
@@ -76,12 +74,13 @@ const EditGroup = () => {
   };
 
   const handleDelete = (groupId) => {
-    dispatch(deleteGroup(groupId));
-    if (AdminType === UserType.KindergartenAdmin) {
-      navigate("/kindergartenAdminLayout/groups");
-    } else {
-      navigate("/branchAdminPage/groups");
-    }
+    dispatch(deleteGroup(groupId)).then(() => {
+      if (AdminType === UserType.KindergartenAdmin) {
+        navigate("/kindergartenAdminLayout/groups");
+      } else {
+        navigate("/branchAdminPage/groups");
+      }
+    });
   };
 
   const handleConfirmExit = () => {
@@ -116,12 +115,13 @@ const EditGroup = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    dispatch(editGroup(editFormData));
-    if (AdminType === UserType.KindergartenAdmin) {
-      navigate("/kindergartenAdminLayout/groups");
-    } else {
-      navigate("/branchAdminPage/groups");
-    }
+    dispatch(editGroup(editFormData)).then(() => {
+      if (AdminType === UserType.KindergartenAdmin) {
+        navigate("/kindergartenAdminLayout/groups");
+      } else {
+        navigate("/branchAdminPage/groups");
+      }
+    });
   };
 
   return (

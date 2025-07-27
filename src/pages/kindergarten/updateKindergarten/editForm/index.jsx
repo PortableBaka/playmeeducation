@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 import { FormatPhoneNumber } from "../formatData";
 import "./styles.sass";
 import { useTranslation } from "react-i18next";
+import { IMaskInput } from "react-imask";
 
 const EditForm = ({
   handleUpdateSubmit,
@@ -35,18 +36,18 @@ const EditForm = ({
       </div>
       <div className="inputBox">
         <label htmlFor="phone_number" className="label">
-        {t("phone_number")}
+          {t("phone_number")}
         </label>
-        <Space.Compact>
-          <Input
-            size="large"
-            addonBefore="+998"
-            id="phone_number"
-            name="phone_number"
-            value={formattedNumber}
-            onChange={handleEditFromData}
-          />
-        </Space.Compact>
+        <IMaskInput
+          mask="+998 (00) 000-00-00"
+          maxLength={17}
+          size="large"
+          className="ant-input inputPhone"
+          id="phone_number"
+          name="phone_number"
+          value={editFormData?.phone_number}
+          onChange={handleEditFromData}
+        />
         {errors?.phone_number && (
           <div className="inputErrorMessage">{errors?.phone_number}</div>
         )}
@@ -69,7 +70,7 @@ const EditForm = ({
       </div>
       <div className="inputBox">
         <label htmlFor="kindergarden_admin_usernam" className="label">
-        {t("login")}
+          {t("login")}
         </label>
         <Input
           size="large"

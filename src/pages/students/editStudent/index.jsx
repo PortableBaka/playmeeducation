@@ -45,7 +45,6 @@ const StudentsEdit = () => {
   const { groups } = useSelector((state) => state.group);
   const [editFormData, setEditFormData] = useState(studentById);
   const [showExitModal, setShowExitModal] = useState(false);
-  const [form] = Form.useForm();
   const [fileList, setFileList] = useState([]);
 
   useEffect(() => {
@@ -67,7 +66,7 @@ const StudentsEdit = () => {
     if (studentById) {
       setEditFormData({
         ...studentById,
-        phone_number: studentById.phone_number.slice(4),
+        phone_number: studentById.phone_number,
       });
       if (studentById?.photo) {
         setFileList([
@@ -87,25 +86,26 @@ const StudentsEdit = () => {
       const media_type = getMediaType(file);
       const result = await dispatch(
         createLibraryUploadFile({ file, media_type })
-      );
-      const filePath = result.payload.file_path;
+      ).then(() => {
+        const filePath = result.payload.file_path;
 
-      onSuccess(filePath, file);
-      message.success(`${file.name} file uploaded successfully`);
+        onSuccess(filePath, file);
+        message.success(`${file.name} file uploaded successfully`);
 
-      setFileList([
-        {
-          uid: file.uid,
-          name: file.name,
-          status: "done",
-          url: filePath,
-        },
-      ]);
+        setFileList([
+          {
+            uid: file.uid,
+            name: file.name,
+            status: "done",
+            url: filePath,
+          },
+        ]);
 
-      setEditFormData((prevFormData) => ({
-        ...prevFormData,
-        photo: filePath,
-      }));
+        setEditFormData((prevFormData) => ({
+          ...prevFormData,
+          photo: filePath,
+        }));
+      });
     } catch (error) {
       onError(error);
       message.error(`File upload failed: ${error.message}`);
@@ -124,33 +124,30 @@ const StudentsEdit = () => {
 
   const handleDelete = (e) => {
     e.preventDefault();
-    dispatch(deleteStudent(studentById.id));
-    dispatch(resetStatus());
-    if (AdminType === UserType.KindergartenAdmin) {
-      navigate("/kindergartenAdminLayout/students");
-      navigate(0);
-    } else {
-      navigate("/branchAdminPage/students");
-      navigate(0);
-    }
+    dispatch(deleteStudent(studentById.id)).then(() => {
+      dispatch(resetStatus());
+      if (AdminType === UserType.KindergartenAdmin) {
+        navigate("/kindergartenAdminLayout/students");
+        navigate(0);
+      } else {
+        navigate("/branchAdminPage/students");
+        navigate(0);
+      }
+    });
   };
 
   const handleUpdateSubmit = (e) => {
     e.preventDefault();
-    dispatch(
-      editStudentData({
-        ...editFormData,
-        phone_number: "+998" + editFormData.phone_number,
-      })
-    );
-    dispatch(resetStatus());
-    if (AdminType === UserType.KindergartenAdmin) {
-      navigate("/kindergartenAdminLayout/students");
-      navigate(0);
-    } else {
-      navigate("/branchAdminPage/students");
-      navigate(0);
-    }
+    dispatch(editStudentData(editFormData)).then(() => {
+      dispatch(resetStatus());
+      if (AdminType === UserType.KindergartenAdmin) {
+        navigate("/kindergartenAdminLayout/students");
+        navigate(0);
+      } else {
+        navigate("/branchAdminPage/students");
+        navigate(0);
+      }
+    });
   };
 
   const handleConfirmExit = () => {
@@ -313,7 +310,7 @@ const StudentsEdit = () => {
               />
             )}
           </div>
-          <div className="inputBox">
+          <div className="inputBox formBox">
             <label htmlFor="phone_number" className="label">
               {t("parent_phone_number")}
             </label>
@@ -325,27 +322,25 @@ const StudentsEdit = () => {
                 height={40}
               />
             ) : (
-              <Space.Compact>
-                <Input
-                  size="large"
-                  addonBefore="+998"
-                  id="phone_number"
-                  name="phone_number"
-                  value={editFormData?.phone_number || ""}
-                  onChange={(e) =>
-                    setEditFormData({
-                      ...editFormData,
-                      phone_number: e.target.value,
-                    })
-                  }
-                  maxLength={9}
-                />
-              </Space.Compact>
+              <IMaskInput
+                mask={"+998 00 000-00-00"}
+                className="inputPhone ant-input-lg ant-input"
+                placeholder={t("another_parent_phone_number")}
+                size="large"
+                maxLength={17}
+                value={editFormData?.phone_number || ""}
+                onChange={(e) =>
+                  setEditFormData({
+                    ...editFormData,
+                    phone_number: e.target.value,
+                  })
+                }
+              />
             )}
           </div>
           <div className="inputBox">
             <label htmlFor="username" className="label">
-            {t("login")}
+              {t("login")}
             </label>
             {status === "loading" ? (
               <Skeleton

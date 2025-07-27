@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from "react";
-import { Button, Form, Input, Radio, Select, Space, Modal } from "antd";
+import React, { useState } from "react";
+import { Button, Form, Input, Radio, Select } from "antd";
 import { Link, useNavigate } from "react-router-dom";
 import { IoMdClose } from "react-icons/io";
 import { IMaskInput } from "react-imask";
@@ -23,19 +23,6 @@ const CreateLeads = () => {
   const selectedBranchId = useSelector(
     (state) => state?.branches?.selectedBranchId
   );
-
-  useEffect(() => {
-    const handleBeforeUnload = (event) => {
-      if (isFormDirty) {
-        event.preventDefault();
-        event.returnValue = "";
-      }
-    };
-    window.addEventListener("beforeunload", handleBeforeUnload);
-    return () => {
-      window.removeEventListener("beforeunload", handleBeforeUnload);
-    };
-  }, [isFormDirty]);
 
   const handleInputChange = () => {
     setIsFormDirty(true);
@@ -80,17 +67,18 @@ const CreateLeads = () => {
   const handleFinish = (values) => {
     const formValues = {
       ...values,
-      phone_number: `+998${values.phone_number}`,
+      phone_number: `${values.phone_number}`,
       branch_id: selectedBranchId,
     };
-    dispatch(createLead(formValues));
-    if (AdminType === UserType.KindergartenAdmin) {
-      navigate("/kindergartenAdminLayout/leads");
-      navigate(0);
-    } else {
-      navigate("/branchAdminPage/leads");
-      navigate(0);
-    }
+    dispatch(createLead(formValues)).then(() => {
+      if (AdminType === UserType.KindergartenAdmin) {
+        navigate("/kindergartenAdminLayout/leads");
+        navigate(0);
+      } else {
+        navigate("/branchAdminPage/leads");
+        navigate(0);
+      }
+    });
   };
 
   return (
@@ -162,11 +150,12 @@ const CreateLeads = () => {
             name="phone_number"
             rules={[{ required: true, message: t("input_phone_number") }]}
           >
-            <Input
-              addonBefore="+998"
+            <IMaskInput
+              mask={"+998 00 000-00-00"}
+              className="ant-input inputData"
               placeholder={t("another_parent_phone_number")}
               size="large"
-              maxLength={9}
+              maxLength={17}
             />
           </Form.Item>
 

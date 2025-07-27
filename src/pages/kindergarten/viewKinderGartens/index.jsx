@@ -1,5 +1,4 @@
 import React, { useEffect } from "react";
-import { Button } from "antd";
 import { IoMdClose } from "react-icons/io";
 import { Link, useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
@@ -7,19 +6,21 @@ import { retrieveKindergartens } from "../../../store/kindergartensSlice";
 import CreationForm from "../createKindergarten/creationForm";
 import BranchForm from "../branchForm";
 import "./styles.sass";
+import { useTranslation } from "react-i18next";
 
 const ViewKindergarten = () => {
   const { id } = useParams();
   const dispatch = useDispatch();
-  const { kindergartens, loading, error, status } = useSelector(
+  const { kindergartens, status } = useSelector(
     (state) => state?.kindergartens
   );
-  const viewKindergartensData = kindergartens.find((item) => item?.id == id);
+
+  const { t } = useTranslation();
+
+  const viewKindergartensData = kindergartens.find((item) => +item?.id === +id);
 
   useEffect(() => {
-    if (status === "idle") {
-      dispatch(retrieveKindergartens());
-    }
+    dispatch(retrieveKindergartens());
   }, [dispatch, status]);
 
   return (

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Button, Input, Select, Form, Alert } from "antd";
+import { Button, Input, Select, Form } from "antd";
 import { Link, useNavigate } from "react-router-dom";
 import { IoMdClose } from "react-icons/io";
 import { useDispatch, useSelector } from "react-redux";
@@ -15,6 +15,7 @@ import ExitModal from "../../kindergarten/createKindergarten/modalBox";
 import YearSelect from "./yearSelect";
 import "./styles.sass";
 import { useTranslation } from "react-i18next";
+import { paymentTypes } from "../data";
 
 const TransactionCreate = () => {
   const { t } = useTranslation();
@@ -26,7 +27,7 @@ const TransactionCreate = () => {
   const { groups } = useSelector((state) => state.group);
   const [form] = Form.useForm();
   const [showExitModal, setShowExitModal] = useState(false);
-  const [isFormDirty, setIsFormDirty] = useState(false);
+  const [_, setIsFormDirty] = useState(false);
   const [students, setStudents] = useState([]);
   const { Option } = Select;
   const selectedBranchId = useSelector(
@@ -80,12 +81,11 @@ const TransactionCreate = () => {
     const formValues = {
       ...values,
       payment_period_month: Number(values.payment_period_month),
-      payment_type: "cash",
       amount: 60000,
       branch_id: selectedBranchId,
     };
 
-    dispatch(createStudentTransaction(formValues)).then((res) => {
+    dispatch(createStudentTransaction(formValues)).then(() => {
       dispatch(resetStatus());
       if (AdminType === UserType.KindergartenAdmin) {
         navigate("/kindergartenAdminLayout/transactions");
@@ -95,26 +95,6 @@ const TransactionCreate = () => {
         navigate(0);
       }
     });
-  };
-
-  const handleNavigation = (event) => {
-    if (isFormDirty) {
-      event.preventDefault();
-      setShowExitModal(true);
-    } else {
-      navigate("/kindergartenAdminLayout/transactions");
-      navigate(0);
-    }
-  };
-
-  const handleBranchNavigation = (event) => {
-    if (isFormDirty) {
-      event.preventDefault();
-      setShowExitModal(true);
-    } else {
-      navigate("/branchAdminPage/transactions");
-      navigate(0);
-    }
   };
 
   return (
@@ -130,10 +110,10 @@ const TransactionCreate = () => {
             <div className="headerTitle">
               <Link
                 className="closePage"
-                onClick={
+                to={
                   AdminType === UserType.KindergartenAdmin
-                    ? handleNavigation
-                    : handleBranchNavigation
+                    ? "/kindergartenAdminLayout/transactions"
+                    : "/branchAdminPage/transactions"
                 }
               >
                 <IoMdClose />
@@ -150,15 +130,6 @@ const TransactionCreate = () => {
       </div>
       <div className="container">
         <div className="formBox">
-          <div className="inputBox">
-            <Alert
-              message={
-                <div className="messageText">{t("transaction_by_cash")}</div>
-              }
-              type="info"
-              showIcon
-            />
-          </div>
           <div className="rowBox">
             <div className="colBox">
               <Form.Item
@@ -209,22 +180,50 @@ const TransactionCreate = () => {
           >
             <Input disabled placeholder="60000" size="large" />
           </Form.Item>
-          <Form.Item
-            name="date"
-            label={t("transaction_date")}
-            style={{ margin: 0 }}
-            rules={[{ required: true, message: t("input_payment_date") }]}
+          <div
+            style={{
+              display: "grid",
+              gridTemplateColumns: "1fr 1fr",
+              gap: "16px",
+            }}
           >
-            <IMaskInput
-              className="ant-input inputData"
-              mask={Mask}
-              maxLength={10}
-              placeholder={`${t("e.g")}, 2020.04.12`}
-              onAccept={(value) => form.setFieldsValue({ date: value })}
-              onBlur={() => form.validateFields(["date"])}
-            />
-            <p className="messageText">{t("payment_date")}</p>
-          </Form.Item>
+            <Form.Item
+              name="date"
+              label={t("transaction_date")}
+              style={{ margin: 0 }}
+              rules={[{ required: true, message: t("input_payment_date") }]}
+            >
+              <IMaskInput
+                className="ant-input inputData"
+                mask={Mask}
+                maxLength={10}
+                placeholder={`${t("e.g")}, 2020.04.12`}
+                onAccept={(value) => form.setFieldsValue({ date: value })}
+                onBlur={() => form.validateFields(["date"])}
+              />
+              <p className="messageText">{t("payment_date")}</p>
+            </Form.Item>
+            <Form.Item
+              name="payment_type"
+              label={t("payment_method")}
+              rules={[{ required: true, message: t("choose_payment_method") }]}
+            >
+              <Select
+                size="large"
+                placeholder={t("payment_method")}
+                onChange={(value) => form.setFieldValue("payment_type", value)}
+              >
+                {paymentTypes.map((paymentType) => (
+                  <Select.Option
+                    key={paymentType.value}
+                    value={paymentType.value}
+                  >
+                    {paymentType.label}
+                  </Select.Option>
+                ))}
+              </Select>
+            </Form.Item>
+          </div>
           <div className="rowBox">
             <div className="colBox">
               <Form.Item

@@ -10,6 +10,7 @@ import { FaRegTrashAlt } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 import "./styles.sass";
 import { useTranslation } from "react-i18next";
+import { IMaskInput } from "react-imask";
 
 const CreateKindergarten = () => {
   const { t } = useTranslation();
@@ -69,10 +70,7 @@ const CreateKindergarten = () => {
     }
 
     try {
-      const response = await instance.post(
-        `/kindergardens/multiple-branches`,
-        formData
-      );
+      await instance.post(`/kindergardens/multiple-branches`, formData);
       toast.success("Детский сад успешно создан");
       navigate("/superAdminPage/kindergartenTable");
     } catch (error) {
@@ -142,29 +140,30 @@ const CreateKindergarten = () => {
             </div>
             <div className="createKindergarten_header_save">
               <button className="save" form="kindergartenForm">
-                Сохранить
+                {t("save")}
               </button>
             </div>
           </div>
         </div>
         <div className="createKindergarten_content">
           <form id="kindergartenForm" onSubmit={handleCreateKinderGarden}>
-            <label htmlFor="kindergarten_name">Название</label>
+            <label htmlFor="kindergarten_name">{t("name")}</label>
             <input
               required
               type="text"
               id="kindergarten_name"
-              placeholder="Название детского сада"
+              placeholder={t("kindergarten_nae")}
             />
 
-            <label htmlFor="kindergarten_phone">Телефон</label>
+            <label htmlFor="kindergarten_phone">{t("phone_number")}</label>
             <div className="kindergartenForm_phone">
-              <div className="prePhone">+998</div>
-              <input
-                required
-                type="number"
-                id="kindergarten_phone"
+              <IMaskInput
+                mask="+998 00 000-00-00"
+                className="ant-input inputPhone"
                 placeholder="Телефон администратора"
+                id="kindergarten_phone"
+                name="kindergarten_phone"
+                maxLength={17}
               />
             </div>
 
@@ -256,7 +255,7 @@ const CreateKindergarten = () => {
                       </Popover>
                     )}
                   </div>
-                  <label htmlFor={`branch_name_${index}`}>Название</label>
+                  <label htmlFor={`branch_name_${index}`}>{t("name")}</label>
                   <input
                     required
                     type="text"
@@ -265,16 +264,15 @@ const CreateKindergarten = () => {
                     onChange={(e) =>
                       handleBranchChange(index, "branch_name", e.target.value)
                     }
-                    placeholder="Название филиала"
+                    placeholder={t("filial_name")}
                   />
 
                   <label htmlFor={`branch_phone_${index}`}>Телефон</label>
                   <div className="kindergartenForm_phone">
-                    <div className="prePhone">+998</div>
-                    <input
+                    <IMaskInput
                       required
-                      type="number"
                       id={`branch_phone_${index}`}
+                      mask="+998 00 000-00-00"
                       value={branch.phone_number}
                       onChange={(e) =>
                         handleBranchChange(
@@ -283,6 +281,7 @@ const CreateKindergarten = () => {
                           e.target.value
                         )
                       }
+                      maxLength={17}
                       placeholder="Телефон филиала"
                     />
                   </div>

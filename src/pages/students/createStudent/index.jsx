@@ -1,14 +1,5 @@
 import React, { useEffect, useState } from "react";
-import {
-  Button,
-  Input,
-  Select,
-  Form,
-  Upload,
-  Space,
-  Modal,
-  message,
-} from "antd";
+import { Button, Input, Select, Form, Upload, message } from "antd";
 import { UploadOutlined } from "@ant-design/icons";
 import { Link, useNavigate } from "react-router-dom";
 import { IoMdClose } from "react-icons/io";
@@ -44,7 +35,7 @@ const StudentsCreate = () => {
   const birthdayMask = "0000-00-00";
   const Mask = [{ mask: birthdayMask }];
   const { groups } = useSelector((state) => state.group);
-  const { isLoading, error, success } = useSelector((state) => state.library);
+  const { isLoading } = useSelector((state) => state.library);
   const [form] = Form.useForm();
   const [showExitModal, setShowExitModal] = useState(false);
   const [isFormDirty, setIsFormDirty] = useState(false);
@@ -99,12 +90,12 @@ const StudentsCreate = () => {
   const handleFinish = (values) => {
     const formValues = {
       ...values,
-      phone_number: `+998${values.phone_number}`,
+      phone_number: values.phone_number,
       branch_id: Number(localStorage.getItem("selectedBranchId")) || null,
       start_date: new Date().toISOString(),
     };
 
-    dispatch(createStudentData(formValues)).then((res) => {
+    dispatch(createStudentData(formValues)).then(() => {
       dispatch(resetStatus());
       if (AdminType === UserType.KindergartenAdmin) {
         navigate("/kindergartenAdminLayout/students");
@@ -114,26 +105,6 @@ const StudentsCreate = () => {
         navigate(0);
       }
     });
-  };
-
-  const handleNavigation = (event) => {
-    if (isFormDirty) {
-      event.preventDefault();
-      setShowExitModal(true);
-    } else {
-      navigate("/kindergartenAdminLayout/students");
-      navigate(0);
-    }
-  };
-
-  const handleBranchNavigation = (event) => {
-    if (isFormDirty) {
-      event.preventDefault();
-      setShowExitModal(true);
-    } else {
-      navigate("/branchAdminPage/students");
-      navigate(0);
-    }
   };
 
   return (
@@ -149,10 +120,10 @@ const StudentsCreate = () => {
             <div className="headerTitle">
               <Link
                 className="closePage"
-                onClick={
+                to={
                   AdminType === UserType.KindergartenAdmin
-                    ? handleNavigation
-                    : handleBranchNavigation
+                    ? "/kindergartenAdminLayout/students"
+                    : "/branchAdminPage/students"
                 }
               >
                 <IoMdClose />
@@ -253,16 +224,13 @@ const StudentsCreate = () => {
             label={t("phone_number")}
             rules={[{ required: true, message: t("input_phone_number") }]}
           >
-            <Space.Compact>
-              <Input
-                size="large"
-                addonBefore="+998"
-                placeholder={t("another_parent_phone_number")}
-                onChange={() => setIsFormDirty(true)}
-                style={{ width: "100%" }}
-                maxLength={9}
-              />
-            </Space.Compact>
+            <IMaskInput
+              mask={"+998 00 000-00-00"}
+              className="ant-input inputData"
+              placeholder={t("another_parent_phone_number")}
+              size="large"
+              maxLength={17}
+            />
           </Form.Item>
 
           <Form.Item

@@ -48,7 +48,10 @@ const EditHeader = ({ libraryDataById, setShowExitModal, handleDelete }) => {
                   />
                   <div className="btnGroup">
                     <Button onClick={hide}>{t("cancel")}</Button>
-                    <Button type="primary" onClick={(e) => handleDelete(e, libraryDataById?.id)}>
+                    <Button
+                      type="primary"
+                      onClick={(e) => handleDelete(e, libraryDataById?.id)}
+                    >
                       {t("delete")}
                     </Button>
                   </div>

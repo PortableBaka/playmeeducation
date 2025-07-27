@@ -3,6 +3,7 @@ import { FaRegTrashAlt } from "react-icons/fa";
 import { useEffect, useRef, useState } from "react";
 import "./styles.sass";
 import { useTranslation } from "react-i18next";
+import { IMaskInput } from "react-imask";
 
 const BranchForm = ({
   index,
@@ -95,23 +96,20 @@ const BranchForm = ({
             <label htmlFor="" className="label">
               {t("phone_number")}
             </label>
-            <Space.Compact>
-              <Input
-                size="large"
-                addonBefore="+998"
-                className="input"
-                name="phone_number"
-                placeholder={
-                  branchData?.phone_number
-                    ? branchData?.phone_number
-                    : t("phone_number_admin")
-                }
-                defaultValue={branchData?.phone_number}
-                value={branchFormData?.phone_number}
-                onChange={handleChange}
-                disabled={disabled}
-              />
-            </Space.Compact>
+            <IMaskInput
+              className="ant-input inputPhone"
+              name="phone_number"
+              mask="+998 00 000-00-00"
+              placeholder={
+                branchData?.phone_number
+                  ? branchData?.phone_number
+                  : t("phone_number_admin")
+              }
+              defaultValue={branchData?.phone_number}
+              value={branchFormData?.phone_number}
+              onChange={handleChange}
+              disabled={disabled}
+            />
           </div>
           <div className="branchInputBox">
             <label className="label">

@@ -17,6 +17,18 @@ const { Sider } = Layout;
 const { Option } = Select;
 
 const KindergartenAdminLayout = () => {
+  const [lang, setLang] = useState(localStorage.getItem("language") || "ru");
+
+  useEffect(() => {
+    handleLanguageChange(lang);
+  }, [lang]);
+
+  const handleLanguageChange = (value) => {
+    i18n.changeLanguage(value);
+    setLang(value);
+    localStorage.setItem("language", value);
+  };
+
   const { i18n, t } = useTranslation();
   const navigate = useNavigate();
   const location = useLocation();
@@ -31,37 +43,18 @@ const KindergartenAdminLayout = () => {
   const selectedBranchId = useSelector(
     (state) => state?.branches?.selectedBranchId
   );
-  const { branchInfo, status } = useSelector((state) => state?.kindergartens);
+  const { branchInfo } = useSelector((state) => state?.kindergartens);
 
   const [selectedBranchName, setSelectedBranchName] = useState(
     localStorage.getItem("selectedBranchName") || ""
   );
-  const [selectedLanguage, setSelectedLanguage] = useState("uz");
-
   useEffect(() => {
-    const lang = localStorage.getItem("language");
-    if (lang) {
-      i18n.changeLanguage(lang);
-      setSelectedLanguage(lang);
-    } else {
-      i18n.changeLanguage("uz");
-      setSelectedLanguage("uz");
-    }
-  }, [selectedLanguage]);
-  useEffect(() => {
-    if (status === "idle") {
-      dispatch(retrieveKindergartensById());
-    }
+    dispatch(retrieveKindergartensById());
     const savedBranchId = localStorage.getItem("selectedBranchId");
     if (savedBranchId) {
       dispatch(setSelectedBranchId(savedBranchId));
     }
-  }, [status, dispatch]);
-
-  const handleLanguageChange = (value) => {
-    localStorage.setItem("language", value);
-    setSelectedLanguage(value);
-  };
+  }, [dispatch]);
 
   const handleBranchChange = (branchId, branchName) => {
     setSelectedBranchName(branchName);
@@ -130,7 +123,7 @@ const KindergartenAdminLayout = () => {
               </div>
               <div className="menuItems">
                 <Select
-                  value={selectedLanguage}
+                  value={lang}
                   onChange={handleLanguageChange}
                   style={{ width: "100%", border: "none" }}
                   dropdownStyle={{ textAlign: "center" }}
@@ -143,8 +136,14 @@ const KindergartenAdminLayout = () => {
                     />
                     Uzbekcha
                   </Option>
-                  <Option value="ru">Russia</Option>
-                  {/* <Option value="en">English</Option> */}
+                  <Option value="ru">
+                    <img
+                      src={globalIcon}
+                      alt="Globe"
+                      style={{ marginRight: 8 }}
+                    />
+                    Русский
+                  </Option>
                 </Select>
                 <Select
                   value={

@@ -128,17 +128,18 @@ const EditEmployee = () => {
       editEmployee({
         editFormData: {
           ...editFormData,
-          phone_number: "+998" + editFormData.phone_number,
+          phone_number: editFormData.phone_number,
         },
         selectedBranchId,
       })
-    );
-    dispatch(resetStatus());
-    if (AdminType === UserType.KindergartenAdmin) {
-      navigate("/kindergartenAdminLayout/employees");
-    } else {
-      navigate("/branchAdminPage/employees");
-    }
+    ).then(() => {
+      dispatch(resetStatus());
+      if (AdminType === UserType.KindergartenAdmin) {
+        navigate("/kindergartenAdminLayout/employees");
+      } else {
+        navigate("/branchAdminPage/employees");
+      }
+    });
   };
 
   const handleConfirmExit = () => {
@@ -232,22 +233,20 @@ const EditEmployee = () => {
                 height={40}
               />
             ) : (
-              <Space.Compact>
-                <Input
-                  size="large"
-                  addonBefore="+998"
-                  id="phone_number"
-                  name="phone_number"
-                  value={editFormData?.phone_number || ""}
-                  onChange={(e) =>
-                    setEditFormData({
-                      ...editFormData,
-                      phone_number: e.target.value,
-                    })
-                  }
-                  maxLength={9}
-                />
-              </Space.Compact>
+              <IMaskInput
+                mask={"+998 00 000-00-00"}
+                className="ant-input inputPhone"
+                placeholder={t("another_parent_phone_number")}
+                size="large"
+                maxLength={17}
+                value={editFormData?.phone_number || ""}
+                onChange={(e) =>
+                  setEditFormData({
+                    ...editFormData,
+                    phone_number: e.target.value,
+                  })
+                }
+              />
             )}
           </div>
           <div className="inputBox">

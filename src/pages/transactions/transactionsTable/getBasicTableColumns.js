@@ -15,6 +15,11 @@ export const GetBasicTableColumns = [
     key: "date",
   },
   {
+    title: "payment_sum",
+    dataIndex: "amount",
+    key: "amount",
+  },
+  {
     title: "payment_method",
     dataIndex: "payment_type",
     key: "payment_type",

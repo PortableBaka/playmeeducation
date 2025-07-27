@@ -1,6 +1,6 @@
 import React, { useEffect, useMemo, useState } from "react";
-import { DatePicker, Input } from "antd";
-import { SearchOutlined } from "@ant-design/icons";
+import { Button, DatePicker, Input, Select } from "antd";
+import { CloseOutlined, SearchOutlined } from "@ant-design/icons";
 import { useDispatch, useSelector } from "react-redux";
 import { retrieveTransactions } from "../../../store/transactionSlice";
 import LayoutHeader from "../../../components/layoutHeader";
@@ -11,6 +11,7 @@ import { getLocalizedMonthYear } from "../../../utils/getLocalizedMonthYear";
 import SkeletonTable from "../../../components/skeleton/SkeletonTable";
 import { GetBasicTableColumns } from "../transactionsTable/getBasicTableColumns";
 import { useTranslation } from "react-i18next";
+import { paymentTypes } from "../data";
 
 const TransactionMain = () => {
   const { t } = useTranslation();
@@ -20,6 +21,8 @@ const TransactionMain = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [searchMonthYear, setSearchMonthYear] = useState(null);
   const [iconColor, setIconColor] = useState("");
+  const [paymentType, setPaymentType] = useState(null);
+
   const { transactionsData, status } = useSelector(
     (state) => state?.transaction
   );
@@ -27,7 +30,10 @@ const TransactionMain = () => {
   const filterDataByText = (transactionsData, searchTerm) => {
     if (!searchTerm) return transactionsData;
     return transactionsData.filter((item) => {
-      return item.student_name.toLowerCase().includes(searchTerm.toLowerCase());
+      return (
+        item.student_name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        item.payment_type?.includes(searchTerm.toLowerCase)
+      );
     });
   };
 
@@ -41,9 +47,17 @@ const TransactionMain = () => {
     });
   };
 
+  const filterDataByPaymentType = (transactionsData, paymentType) => {
+    if (!paymentType) return transactionsData;
+    return transactionsData.filter((item) => {
+      return item.payment_type === paymentType;
+    });
+  };
+
   const searchFilteredData = useMemo(() => {
     let filteredData = filterDataByText(transactionsData, searchTerm);
     filteredData = filterDataByDate(filteredData, searchMonthYear);
+    filteredData = filterDataByPaymentType(filteredData, paymentType);
     if (filteredData) {
       filteredData = filteredData.map((transaction) => ({
         ...transaction,
@@ -55,13 +69,11 @@ const TransactionMain = () => {
       }));
     }
     return filteredData;
-  }, [transactionsData, searchTerm, searchMonthYear]);
+  }, [transactionsData, searchTerm, searchMonthYear, paymentType]);
 
   useEffect(() => {
-    if (status === "idle") {
-      dispatch(retrieveTransactions());
-    }
-  }, [dispatch, status]);
+    dispatch(retrieveTransactions());
+  }, [dispatch]);
 
   useEffect(() => {
     if (searchTerm && searchFilteredData.length === 0) {
@@ -113,10 +125,42 @@ const TransactionMain = () => {
               <DatePicker
                 size="large"
                 picker="month"
-                style={{ width: "40%" }}
+                style={{ width: "60%" }}
                 placeholder={t("transaction_date")}
                 onChange={onDateChange}
+                value={new Date(searchMonthYear)}
               />
+              <Select
+                size="large"
+                variant="outlined"
+                placeholder={t("payment_method")}
+                style={{ width: "60%" }}
+                onChange={(value) => setPaymentType(value)}
+                value={paymentType}
+              >
+                {paymentTypes.map((paymentType) => (
+                  <Select.Option
+                    key={paymentType.value}
+                    value={paymentType.value}
+                  >
+                    {paymentType.label}
+                  </Select.Option>
+                ))}
+              </Select>
+              {(paymentType || searchTerm || searchMonthYear) && (
+                <div>
+                  <Button
+                    onClick={() => {
+                      setSearchTerm("");
+                      setSearchMonthYear(null);
+                      setPaymentType(null);
+                    }}
+                    type="primary"
+                    style={{ width: "40px" }}
+                    icon={<CloseOutlined />}
+                  />
+                </div>
+              )}
             </div>
             {status === "loading" ? (
               <SkeletonTable columns={GetBasicTableColumns} rowCount={10} />

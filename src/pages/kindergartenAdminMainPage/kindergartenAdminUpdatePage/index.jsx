@@ -6,13 +6,14 @@ import { Button } from "antd";
 import CreationForm from "../../kindergarten/createKindergarten/creationForm";
 import { addForm } from "../../kindergarten/createKindergarten/addForm";
 import BranchForm from "../../kindergarten/branchForm";
-import ExitModal from "../../kindergarten/createKindergarten/modalBox";
 import { IoMdClose } from "react-icons/io";
 import { PlusOutlined } from "@ant-design/icons";
+import { useTranslation } from "react-i18next";
 
 const KindergartenAdminUpdatePage = () => {
   const [forms, setForms] = useState([0]);
   const formRefs = useRef([]);
+  const { t } = useTranslation();
   const [branchFormDataArray, setBranchFormDataArray] = useState([
     {
       branch_name: "",

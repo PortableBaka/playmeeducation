@@ -22,7 +22,7 @@ const EditLibrary = () => {
 
   const { groups } = useSelector((state) => state?.group);
   const { libraryDataById, status } = useSelector((state) => state?.library);
-  const libraryId = libraryDataById?.id; 
+  const libraryId = libraryDataById?.id;
   const [showExitModal, setShowExitModal] = useState(false);
 
   useEffect(() => {
@@ -32,15 +32,13 @@ const EditLibrary = () => {
   }, [groups, dispatch]);
 
   useEffect(() => {
-    if (status === "idle") {
-      dispatch(
-        retrieveLibraryDataById({
-          libraryId: id,
-          branchId: localStorage.getItem("selectedBranchId"),
-        })
-      );
-    }
-  }, [status, dispatch]);
+    dispatch(
+      retrieveLibraryDataById({
+        libraryId: id,
+        branchId: localStorage.getItem("selectedBranchId"),
+      })
+    );
+  }, [dispatch]);
 
   const handleConfirmExit = () => {
     setShowExitModal(false);
@@ -57,12 +55,13 @@ const EditLibrary = () => {
 
   const handleDelete = (e) => {
     e.preventDefault();
-    dispatch(deleteLibrary(libraryId));
-    if (AdminType === UserType.KindergartenAdmin) {
-      navigate("/kindergartenAdminLayout/libraryMainPage");
-    } else {
-      navigate("/branchAdminPage/libraryMainPage");
-    }
+    dispatch(deleteLibrary(libraryId)).then(() => {
+      if (AdminType === UserType.KindergartenAdmin) {
+        navigate("/kindergartenAdminLayout/libraryMainPage");
+      } else {
+        navigate("/branchAdminPage/libraryMainPage");
+      }
+    });
   };
 
   const fileList = libraryDataById?.file_name
