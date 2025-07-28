@@ -12,6 +12,7 @@ import SkeletonTable from "../../../components/skeleton/SkeletonTable";
 import { GetBasicTableColumns } from "../transactionsTable/getBasicTableColumns";
 import { useTranslation } from "react-i18next";
 import { paymentTypes } from "../data";
+import moment from "moment";
 
 const TransactionMain = () => {
   const { t } = useTranslation();
@@ -128,7 +129,7 @@ const TransactionMain = () => {
                 style={{ width: "60%" }}
                 placeholder={t("transaction_date")}
                 onChange={onDateChange}
-                value={new Date(searchMonthYear)}
+                value={searchMonthYear ? moment(searchMonthYear) : null}
               />
               <Select
                 size="large"
