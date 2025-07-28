@@ -2,7 +2,6 @@ import moment from "moment";
 import React, { useEffect, useState } from "react";
 import { Calendar, momentLocalizer } from "react-big-calendar";
 import "react-big-calendar/lib/css/react-big-calendar.css";
-import { useTranslation } from "react-i18next";
 import { useDispatch, useSelector } from "react-redux";
 import { Skeleton } from "../../../components/skeleton";
 import {
@@ -18,16 +17,17 @@ const localizer = momentLocalizer(moment);
 
 const CalendarBlock = () => {
   const dispatch = useDispatch();
-  const { events, status, loading } = useSelector((state) => state.events);
+  const { events, loading } = useSelector((state) => state.events);
 
   const [date, setDate] = useState(new Date());
-  const { t } = useTranslation();
   const [showModal, setShowModal] = useState(false);
   const [selectedEvent, setSelectedEvent] = useState(null);
 
   useEffect(() => {
-    dispatch(getAllEvents());
-  }, [dispatch, status]);
+    if (!showModal) {
+      dispatch(getAllEvents());
+    }
+  }, [dispatch, showModal]);
 
   const handleNavigate = (newDate) => {
     setDate(newDate);
@@ -43,18 +43,24 @@ const CalendarBlock = () => {
   };
 
   const handleCreateEvent = (data) => {
-    dispatch(createEvent(data));
-    handleHideModal();
+    dispatch(createEvent(data)).then(() => {
+      handleHideModal();
+      dispatch(getAllEvents());
+    });
   };
 
   const handleEditEvent = (data) => {
-    dispatch(updateEvent(data));
-    handleHideModal();
+    dispatch(updateEvent(data)).then(() => {
+      handleHideModal();
+      dispatch(getAllEvents());
+    });
   };
 
   const handleDeleteEvent = (event) => {
-    dispatch(deleteEvent(event.id));
-    handleHideModal();
+    dispatch(deleteEvent(event.id)).then(() => {
+      handleHideModal();
+      dispatch(getAllEvents());
+    });
   };
 
   const getEventStyle = (event) => {
@@ -91,6 +97,7 @@ const CalendarBlock = () => {
       <Calendar
         localizer={localizer}
         events={events || []}
+        key={events?.length}
         startAccessor="start"
         endAccessor="end"
         selectable

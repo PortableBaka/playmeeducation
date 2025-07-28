@@ -1,5 +1,5 @@
 import React, { useEffect, useMemo, useState } from "react";
-import { Input, theme } from "antd";
+import { Input } from "antd";
 import { SearchOutlined } from "@ant-design/icons";
 import { useDispatch, useSelector } from "react-redux";
 import { retrieveStudents } from "../../../store/studentSlice";
@@ -46,7 +46,7 @@ const StudentsMain = () => {
       setInputBorderColor("#00000026");
       setIconColor("");
     }
-  });
+  }, [searchTerm, searchFilteredData]);
 
   const lastIndexPlusOne = students?.length > 0 ? students?.length : 0;
   const filteredData = students?.map(({ group, branch, ...rest }) => rest);
