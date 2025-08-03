@@ -46,7 +46,7 @@ const CreateGroup = () => {
     if (!groups.length) {
       dispatch(retrieveGroupData());
     }
-  }, [groups, dispatch]);
+  }, [dispatch]);
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;

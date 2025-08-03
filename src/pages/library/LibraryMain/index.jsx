@@ -45,14 +45,14 @@ const LibraryMainPage = () => {
   }, [libraryData, searchTerm]);
 
   useEffect(() => {
-    if (searchTerm && searchFilteredData.length === 0) {
+    if (searchTerm && searchFilteredData?.length === 0) {
       setInputBorderColor("#EE4B2B");
       setIconColor("searchError");
     } else {
       setInputBorderColor("#00000026");
       setIconColor("");
     }
-  }, [searchTerm, searchFilteredData.length]);
+  }, [searchTerm, searchFilteredData?.length]);
 
   return (
     <div className="libraryMainPageContentContainer">
