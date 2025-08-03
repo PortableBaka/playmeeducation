@@ -188,5 +188,9 @@
   "edit": "Редактировать",
   "actions": "Действия",
   "statuses": "Статусы",
-  "coming_source": "Источники прихода"
+  "coming_source": "Источники прихода",
+  "input_payment_sum": "Введите сумму оплаты",
+  "payment_amount": "Сумма оплаты",
+  "kindergarten_name": "Название детского сада",
+  "filial_name": "Название филиала"
 }

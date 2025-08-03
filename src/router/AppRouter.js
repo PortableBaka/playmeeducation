@@ -52,7 +52,7 @@ export const AppRouter = () => {
         </>
       )}
       ,
-      {!isAuthenticated && user?.roleCode !== UserType.KindergartenAdmin && (
+      {isAuthenticated && user?.roleCode === UserType.KindergartenAdmin && (
         <>
           <Route
             path="/kindergartenAdminLayout"
