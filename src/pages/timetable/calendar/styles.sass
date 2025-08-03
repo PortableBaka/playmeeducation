@@ -3,6 +3,9 @@
 .rbc-calendar
     width: 100%
     height: 100%
+    .rbc-timeslot-group
+        min-height: 72px
+        border-bottom: none
     .rbc-toolbar
         flex-direction: row-reverse
         .rbc-toolbar-label
@@ -10,8 +13,11 @@
         .rbc-toolbar-label
             +typography(24px, 600, map-get($basic, 'black'))
     .rbc-event
-        height: 100%
         border: none
+        width: 100% !important
+        height: auto
+        margin-left: 5px !important
+        margin-top: 5px !important
     .rbc-button-link
         span
             +typography(14px, 500, map-get($basic, "black"))
@@ -34,6 +40,20 @@
 
 .inline-fields .ant-form-item
     flex: 1
+
+.event_name
+    font-size: 14px !important
+    font-weight: 500 !important
+    color: rgba(0, 0, 0, 0.88) !important
+    display: -webkit-box; /* Required for -webkit-line-clamp */
+    -webkit-line-clamp: 1;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+
+.event_time
+    font-size: 12px !important
+    font-weight: 500 !important
+    color: rgba(0, 0, 0, 0.45) !important
 
 
 .modal-footer

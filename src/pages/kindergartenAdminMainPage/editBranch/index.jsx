@@ -122,26 +122,6 @@ const EditKindergartenAndBranchData = () => {
             />
           </div>
           <div className="inputBox">
-            <label htmlFor="payment_amount" className="label">
-              {t("payment_sum")}
-            </label>
-            <Input
-              size="large"
-              className="input"
-              type="text"
-              id="payment_amount"
-              name="payment_amount"
-              value={editFormData?.payment_amount}
-              onChange={(e) =>
-                setEditFormData({
-                  ...editFormData,
-                  payment_amount: e.target.value,
-                })
-              }
-            />
-            <p className="messageText">{t("total_price")}</p>
-          </div>
-          <div className="inputBox">
             <label htmlFor="file_name" className="label">
               {t("login")}
             </label>

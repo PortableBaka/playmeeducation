@@ -14,7 +14,6 @@ const EditForm = ({
 }) => {
   const { t } = useTranslation();
 
-  const formattedNumber = FormatPhoneNumber(editFormData?.phone_number);
   return (
     <form onSubmit={handleUpdateSubmit} className="kinderGartenForm">
       <div className="inputBox">

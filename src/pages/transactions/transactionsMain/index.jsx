@@ -18,7 +18,7 @@ const TransactionMain = () => {
   const { t } = useTranslation();
   const dispatch = useDispatch();
 
-  const [inputBorderColor, setInputBorderColor] = useState("#00000026");
+  const [_, setInputBorderColor] = useState("#00000026");
   const [searchTerm, setSearchTerm] = useState("");
   const [searchMonthYear, setSearchMonthYear] = useState(null);
   const [iconColor, setIconColor] = useState("");

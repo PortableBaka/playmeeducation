@@ -65,6 +65,7 @@ const CalendarBlock = () => {
 
   const getEventStyle = (event) => {
     const hour = moment(event.start).hour();
+
     let backgroundColor;
     let borderColor;
 
@@ -86,7 +87,8 @@ const CalendarBlock = () => {
         border: `1px solid ${borderColor}`,
         color: "black",
         borderRadius: "5px",
-        padding: "5px",
+        padding: "6px 5px",
+        width: "100% !important",
       },
     };
   };
@@ -98,6 +100,7 @@ const CalendarBlock = () => {
         localizer={localizer}
         events={events || []}
         startAccessor="start"
+        showAllEvents
         endAccessor="end"
         selectable
         onSelectSlot={(slotInfo) => {
@@ -122,11 +125,9 @@ const CalendarBlock = () => {
         max={
           new Date(date.getFullYear(), date.getMonth(), date.getDate(), 19, 0)
         }
-        style={{ height: 600 }}
         formats={{
           timeGutterFormat: (date) => moment(date).format("HH:mm"),
-          eventTimeRangeFormat: ({ start, end }) =>
-            `${moment(start).format("HH:mm")} - ${moment(end).format("HH:mm")}`,
+          eventTimeRangeFormat: ({ start, end }) => "",
         }}
         eventPropGetter={(event) => getEventStyle(event)}
         components={{
@@ -143,6 +144,16 @@ const CalendarBlock = () => {
                 }}
               >
                 {moment(date).format("dd")}
+              </span>
+            </div>
+          ),
+          event: ({ event }) => (
+            <div style={{ height: "auto !important" }}>
+              <p className="event_name">{event.name}</p>
+              <span className="event_time" style={{ paddingTop: "4px" }}>
+                {`${moment(event.start_time).format("HH:mm")} - ${moment(
+                  event.end_time
+                ).format("HH:mm")}`}
               </span>
             </div>
           ),
