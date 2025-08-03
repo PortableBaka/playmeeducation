@@ -8,7 +8,7 @@ import {
   createEvent,
   deleteEvent,
   getAllEvents,
-  updateEvent, // Assuming this exists for editing events
+  updateEvent,
 } from "../../../store/eventSlice";
 import CalendarModal from "./Modal";
 import "./styles.sass";
@@ -97,7 +97,6 @@ const CalendarBlock = () => {
       <Calendar
         localizer={localizer}
         events={events || []}
-        key={events?.length}
         startAccessor="start"
         endAccessor="end"
         selectable
@@ -130,6 +129,24 @@ const CalendarBlock = () => {
             `${moment(start).format("HH:mm")} - ${moment(end).format("HH:mm")}`,
         }}
         eventPropGetter={(event) => getEventStyle(event)}
+        components={{
+          header: ({ label, date }) => (
+            <div style={{ textAlign: "center" }}>
+              <p style={{ fontSize: "24px", fontWeight: 600 }}>
+                {moment(date).format("DD")}
+              </p>
+              <span
+                style={{
+                  fontSize: "16px",
+                  fontWeight: 500,
+                  color: "rgba(0, 0, 0, 0.45)",
+                }}
+              >
+                {moment(date).format("dd")}
+              </span>
+            </div>
+          ),
+        }}
       />
       <CalendarModal
         showModal={showModal}

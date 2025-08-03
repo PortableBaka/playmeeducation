@@ -194,5 +194,10 @@
   "select_teacher": "O'qituvchini kiriting...",
   "insert_location": "Joylashuvni kiriting...",
   "insert_notes": "Izohlarni kiriting...",
-  "edit": "Tahrirlash"
+  "edit": "Tahrirlash",
+  "actions": "Amallar",
+  "statuses": "Holatlar",
+  "coming_source": "Kelish kanallari",
+  "input_payment_sum": "To'lov summasini kiriting",
+  "payment_amount": "To'lov summasi"
 }

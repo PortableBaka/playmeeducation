@@ -121,7 +121,6 @@ const TransactionMain = () => {
                   <SearchOutlined className={`searchIcon ${iconColor}`} />
                 }
                 onChange={(e) => setSearchTerm(e.target.value)}
-                style={{ borderColor: inputBorderColor, borderWidth: "2px" }}
               />
               <DatePicker
                 size="large"
@@ -135,7 +134,11 @@ const TransactionMain = () => {
                 size="large"
                 variant="outlined"
                 placeholder={t("payment_method")}
-                style={{ width: "60%" }}
+                style={{
+                  width: "60%",
+                  border: "1px solid #00000026",
+                  borderRadius: "8px",
+                }}
                 onChange={(value) => setPaymentType(value)}
                 value={paymentType}
               >

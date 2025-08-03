@@ -31,17 +31,18 @@ const LibraryMainPage = () => {
 
   const filterData = (libraryData, searchTerm) => {
     if (!searchTerm) return libraryData;
-    return libraryData.filter((item) => {
-      return item?.file_name?.toLowerCase().includes(searchTerm.toLowerCase());
-    }) || [];
+    return (
+      libraryData.filter((item) => {
+        return item?.file_name
+          ?.toLowerCase()
+          .includes(searchTerm.toLowerCase());
+      }) || []
+    );
   };
 
-  const searchFilteredData = useMemo(
-    () => {
-      return filterData(libraryData, searchTerm)
-    },
-    [libraryData, searchTerm]
-  );
+  const searchFilteredData = useMemo(() => {
+    return filterData(libraryData, searchTerm);
+  }, [libraryData, searchTerm]);
 
   useEffect(() => {
     if (searchTerm && searchFilteredData.length === 0) {
@@ -51,7 +52,7 @@ const LibraryMainPage = () => {
       setInputBorderColor("#00000026");
       setIconColor("");
     }
-  });
+  }, [searchTerm, searchFilteredData.length]);
 
   return (
     <div className="libraryMainPageContentContainer">

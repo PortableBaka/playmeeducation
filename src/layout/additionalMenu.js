@@ -8,6 +8,7 @@ import {
   IdcardOutlined,
   WalletOutlined,
   UserAddOutlined,
+  SettingOutlined,
 } from "@ant-design/icons";
 import "./styles.sass";
 import { UserType } from "../config";
@@ -50,6 +51,11 @@ const items = [
     icon: <UserAddOutlined />,
     label: "leads",
   },
+  {
+    key: "/kindergartenAdminLayout/settings",
+    icon: <SettingOutlined />,
+    label: "settings",
+  },
 ];
 
 const branchItems = [
@@ -87,6 +93,11 @@ const branchItems = [
     key: "/branchAdminPage/leads",
     icon: <UserAddOutlined />,
     label: "leads",
+  },
+  {
+    key: "/branchAdminPage/settings",
+    icon: <SettingOutlined />,
+    label: "settings",
   },
 ];
 

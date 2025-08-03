@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Button, Form, Input, message, Select, Space, Upload } from "antd";
+import { Button, Input, message, Select, Upload } from "antd";
 import { UploadOutlined } from "@ant-design/icons";
 import { useDispatch, useSelector } from "react-redux";
 import { IMaskInput } from "react-imask";
@@ -54,7 +54,7 @@ const StudentsEdit = () => {
         branchId: localStorage.getItem("selectedBranchId"),
       })
     );
-  }, []);
+  }, [id, dispatch]);
 
   useEffect(() => {
     if (!groups.length) {
@@ -333,6 +333,34 @@ const StudentsEdit = () => {
                   setEditFormData({
                     ...editFormData,
                     phone_number: e.target.value,
+                  })
+                }
+              />
+            )}
+          </div>
+          <div className="inputBox">
+            <label htmlFor="username" className="label">
+              {t("login")}
+            </label>
+            {status === "loading" ? (
+              <Skeleton
+                className="skeleton"
+                duration={0.75}
+                width="100%"
+                height={40}
+              />
+            ) : (
+              <Input
+                size="large"
+                className="input"
+                type="text"
+                id="payment_amount"
+                name="payment_amount"
+                value={editFormData?.payment_amount || ""}
+                onChange={(e) =>
+                  setEditFormData({
+                    ...editFormData,
+                    payment_amount: e.target.value,
                   })
                 }
               />

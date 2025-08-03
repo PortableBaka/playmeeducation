@@ -29,6 +29,7 @@ import TransactionCreate from "../pages/transactions/createTransaction";
 import TransactionEdit from "../pages/transactions/edittTansaction";
 import TransactionMain from "../pages/transactions/transactionsMain";
 import { getAuthenticatedUser } from "../store/authUser";
+import Settings from "../pages/settings";
 
 export const AppRouter = () => {
   const { user, isAuthenticated } = getAuthenticatedUser();
@@ -51,7 +52,7 @@ export const AppRouter = () => {
         </>
       )}
       ,
-      {isAuthenticated && user?.roleCode === UserType.KindergartenAdmin && (
+      {!isAuthenticated && user?.roleCode !== UserType.KindergartenAdmin && (
         <>
           <Route
             path="/kindergartenAdminLayout"
@@ -70,6 +71,7 @@ export const AppRouter = () => {
             <Route path="leads" element={<LeadsMainPage />} />
             <Route path="employees" element={<EmployeeMain />} />
             <Route path="transactions" element={<TransactionMain />} />
+            <Route path="settings" element={<Settings />} />
           </Route>
           <Route path="kindergartenAdmin">
             <Route
@@ -117,6 +119,7 @@ export const AppRouter = () => {
             <Route path="leads" element={<LeadsMainPage />} />
             <Route path="employees" element={<EmployeeMain />} />
             <Route path="transactions" element={<TransactionMain />} />
+            <Route path="settings" element={<Settings />} />
           </Route>
           <Route path="library">
             <Route path="create" element={<CreateLibrary />} />

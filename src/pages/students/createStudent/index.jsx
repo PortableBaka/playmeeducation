@@ -38,7 +38,7 @@ const StudentsCreate = () => {
   const { isLoading } = useSelector((state) => state.library);
   const [form] = Form.useForm();
   const [showExitModal, setShowExitModal] = useState(false);
-  const [isFormDirty, setIsFormDirty] = useState(false);
+  const [_, setIsFormDirty] = useState(false);
 
   useEffect(() => {
     if (!groups.length) {
@@ -230,6 +230,17 @@ const StudentsCreate = () => {
               placeholder={t("another_parent_phone_number")}
               size="large"
               maxLength={17}
+            />
+          </Form.Item>
+          <Form.Item
+            name="payment_amount"
+            label={t("payment_amount")}
+            rules={[{ required: true, message: t("input_payment_sum") }]}
+          >
+            <Input
+              size="large"
+              placeholder={t("input_payment_sum")}
+              onChange={() => setIsFormDirty(true)}
             />
           </Form.Item>
 

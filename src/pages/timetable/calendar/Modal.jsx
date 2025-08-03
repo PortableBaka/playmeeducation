@@ -8,7 +8,6 @@ import { toast } from "react-toastify";
 import { EventType } from "../../../common/types";
 import { MyDatePicker } from "../../../components/common/DatePicker";
 import { retrieveAllTeachersData } from "../../../store/employeesSlice";
-import { getAllEvents } from "../../../store/eventSlice";
 
 const { Option } = Select;
 

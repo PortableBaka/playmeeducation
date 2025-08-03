@@ -31,8 +31,10 @@ const EditLeads = () => {
   const { leadById } = useSelector((state) => state?.leads);
 
   useEffect(() => {
-    dispatch(retrieveLeadsDataById(id));
-  }, [id, dispatch]);
+    dispatch(retrieveLeadsDataById(id)).then(() => {
+      form.setFieldsValue(leadById);
+    });
+  }, [id, dispatch, form]);
 
   const handleInputChange = () => {
     setIsFormDirty(true);

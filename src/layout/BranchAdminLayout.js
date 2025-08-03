@@ -3,7 +3,7 @@ import { Layout, Menu, Select, theme } from "antd";
 import { Outlet, useLocation, useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { roleAvailablePages } from "../config";
-import { BranchId, getAuthenticatedUser, logout } from "../store/authUser";
+import { getAuthenticatedUser, logout } from "../store/authUser";
 import { Content } from "antd/es/layout/layout";
 import { retrieveBranchDataById } from "../store/branchSlice";
 import { AdditionalMenu } from "./additionalMenu";
@@ -38,10 +38,10 @@ const KindergartenBranchAdminLayout = () => {
       i18n.changeLanguage(lang);
       setSelectedLanguage(lang);
     }
-  }, [selectedLanguage]);
+  }, [i18n, selectedLanguage]);
   useEffect(() => {
     dispatch(retrieveBranchDataById(branchId));
-  }, [dispatch]);
+  }, [branchId, dispatch]);
 
   const handleLanguageChange = (value) => {
     localStorage.setItem("language", value);

@@ -58,7 +58,6 @@ const CreateKindergarten = () => {
     const formData = {
       name: e.target.kindergarten_name.value,
       phone_number: e.target.kindergarten_phone.value,
-      payment_amount: e.target.kindergarten_price.value,
       kindergarden_admin_username: e.target.kindergarten_login.value,
       kindergarden_admin_password: e.target.kindergarten_password.value,
       branches: branchForms,
@@ -152,7 +151,7 @@ const CreateKindergarten = () => {
               required
               type="text"
               id="kindergarten_name"
-              placeholder={t("kindergarten_nae")}
+              placeholder={t("kindergarten_name")}
             />
 
             <label htmlFor="kindergarten_phone">{t("phone_number")}</label>
@@ -166,14 +165,6 @@ const CreateKindergarten = () => {
                 maxLength={17}
               />
             </div>
-
-            <label htmlFor="kindergarten_price">Сумма оплаты</label>
-            <input
-              required
-              type="number"
-              id="kindergarten_price"
-              placeholder="0"
-            />
 
             <label htmlFor="kindergarten_login">Логин</label>
             <input
