@@ -23,6 +23,7 @@ const TransactionCreate = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const { id } = useParams();
+  const [studentAmount, setStudentAmount] = useState(0);
 
   const birthdayMask = "0000-00-00";
   const Mask = [{ mask: birthdayMask }];
@@ -38,7 +39,7 @@ const TransactionCreate = () => {
 
   useEffect(() => {
     dispatch(retrieveTransactionDataById(id));
-  }, []);
+  }, [dispatch, id]);
   useEffect(() => {
     if (!groups.length) {
       dispatch(retrieveGroupData());
@@ -48,6 +49,9 @@ const TransactionCreate = () => {
     if (transactionById) {
       form.setFieldsValue({
         ...transactionById,
+        amount: transactionById.amount
+          ?.toString()
+          ?.replace(/\B(?=(\d{3})+(?!\d))/g, " "),
       });
     }
   }, [transactionById, form]);
@@ -155,7 +159,7 @@ const TransactionCreate = () => {
             style={{ margin: 0 }}
             label={t("payment_sum")}
           >
-            <Input disabled placeholder="60000" size="large" />
+            <Input disabled placeholder={studentAmount} size="large" />
           </Form.Item>
           <div
             style={{

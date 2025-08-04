@@ -29,6 +29,7 @@ const TransactionCreate = () => {
   const [showExitModal, setShowExitModal] = useState(false);
   const [_, setIsFormDirty] = useState(false);
   const [students, setStudents] = useState([]);
+  const [studentAmount, setStudentAmount] = useState(0);
   const { Option } = Select;
   const selectedBranchId = useSelector(
     (state) => state?.branches?.selectedBranchId
@@ -46,11 +47,19 @@ const TransactionCreate = () => {
     dispatch(setSelectedGroup(selectedGroup));
     setStudents(selectedGroup.students || []);
     setIsFormDirty(true);
+    setStudentAmount(
+      selectedGroup.students.find(
+        (student) => student.id === form.getFieldValue("student_id")
+      )?.payment_amount
+    );
   };
 
   const handleSelectStudentChange = (value) => {
     form.setFieldsValue({ student_id: value });
     setIsFormDirty(true);
+    setStudentAmount(
+      students.find((student) => student.id === value)?.payment_amount
+    );
   };
 
   const handleConfirmExit = () => {
@@ -81,7 +90,7 @@ const TransactionCreate = () => {
     const formValues = {
       ...values,
       payment_period_month: Number(values.payment_period_month),
-      amount: 60000,
+      amount: studentAmount?.toString(),
       branch_id: selectedBranchId,
     };
 
@@ -178,7 +187,13 @@ const TransactionCreate = () => {
             style={{ margin: 0 }}
             label={t("payment_sum")}
           >
-            <Input disabled placeholder="60000" size="large" />
+            <Input
+              disabled
+              placeholder={studentAmount
+                ?.toString()
+                ?.replace(/\B(?=(\d{3})+(?!\d))/g, " ")}
+              size="large"
+            />
           </Form.Item>
           <div
             style={{

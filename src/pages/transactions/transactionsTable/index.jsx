@@ -18,6 +18,7 @@ const TransactionTable = (props) => {
         columns={GetBasicTableColumns.map((e) => ({
           ...e,
           title: t(e.title),
+          amount: e.amount?.toString()?.replace(/\B(?=(\d{3})+(?!\d))/g, " "),
         }))}
         dataSource={props.data}
         rowKey="id"
