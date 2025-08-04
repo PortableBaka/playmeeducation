@@ -181,13 +181,13 @@ const EmployeeCreate = () => {
 
           <Form.Item
             name="phone_number"
-            label={t("parent_phone_number")}
+            label={t("phone_number")}
             rules={[{ required: true, message: t("input_phone_number") }]}
           >
             <IMaskInput
               mask={"+998 00 000-00-00"}
               className="ant-input inputPhone"
-              placeholder={t("another_parent_phone_number")}
+              placeholder={t("phone_number")}
               size="large"
               maxLength={17}
             />
