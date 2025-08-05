@@ -109,7 +109,7 @@ const TransactionCreate = () => {
                     <div className="btnGroup">
                       <Button onClick={hide}>{t("cancel")}</Button>
                       <Button type="primary" onClick={handleDelete}>
-                        {t("cancel")}
+                        {t("delete")}
                       </Button>
                     </div>
                   </div>
