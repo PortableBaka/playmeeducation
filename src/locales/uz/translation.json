@@ -190,5 +190,10 @@
   "payme": "Payme",
   "click": "Click",
   "transfer": "O‘tkazma",
-  "editable": "Tahrirlash"
+  "editable": "Tahrirlash",
+  "instgram_target": "Instagram target",
+  "youtube": "Youtube",
+  "telegram": "Telegram",
+  "facebook": "Facebook",
+  "with_friends": "Tanishlar orqali"
 }

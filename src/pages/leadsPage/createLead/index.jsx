@@ -81,6 +81,14 @@ const CreateLeads = () => {
     });
   };
 
+  const coming_channels = [
+    "instgram_target",
+    "youtube",
+    "telegram",
+    "facebook",
+    "with_friends",
+  ];
+
   return (
     <Form
       form={form}
@@ -187,9 +195,11 @@ const CreateLeads = () => {
             rules={[{ required: true, message: t("choose_arrival_channel") }]}
           >
             <Select placeholder={t("choose_group")} size="large">
-              <Select.Option key="insta" value="insta">
-                insta
-              </Select.Option>
+              {coming_channels.map((channel) => (
+                <Select.Option key={channel} value={channel}>
+                  {t(channel)}
+                </Select.Option>
+              ))}
             </Select>
           </Form.Item>
         </div>

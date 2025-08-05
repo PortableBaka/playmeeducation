@@ -190,5 +190,10 @@
   "payme": "Payme",
   "click": "Click",
   "transfer": "Перевод",
-  "editable": "Редактировать"
+  "editable": "Редактировать",
+  "instgram_target": "Инстаграм",
+  "youtube": "Ютуб",
+  "telegram": "Телеграм",
+  "facebook": "Фейсбук",
+  "with_friends": "С друзьями"
 }
