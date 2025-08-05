@@ -16,7 +16,10 @@ const EmployeeTable = (props) => {
       <Table
         className="basicLibraryTable"
         columns={GetBasicTableColumns.map((e) => ({ ...e, title: t(e.title) }))}
-        dataSource={props.data}
+        dataSource={props.data?.map((e) => ({
+          ...e,
+          employee_type: t(e.employee_type),
+        }))}
         rowKey="id"
         onRow={(record) => ({
           onClick: () => handleRowClick(record),

@@ -16,7 +16,10 @@ const LibraryTable = (props) => {
       <Table
         className="basicLibraryTable"
         columns={GetBasicTableColumns.map((e) => ({ ...e, title: t(e.title) }))}
-        dataSource={props?.data}
+        dataSource={props?.data?.map((e) => ({
+          ...e,
+          can_view: t(e.can_view),
+        }))}
         rowKey="id"
         onRow={(record) => ({
           onClick: () => handleRowClick(record),

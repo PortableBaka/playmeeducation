@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Button, Input, Select, Form } from "antd";
+import { Button, Select, Form, Checkbox } from "antd";
 import { Link, useNavigate } from "react-router-dom";
 import { IoMdClose } from "react-icons/io";
 import { useDispatch, useSelector } from "react-redux";
@@ -29,7 +29,7 @@ const TransactionCreate = () => {
   const [showExitModal, setShowExitModal] = useState(false);
   const [_, setIsFormDirty] = useState(false);
   const [students, setStudents] = useState([]);
-  const [studentAmount, setStudentAmount] = useState(0);
+  const [isEditable, setIsEditable] = useState(false);
   const { Option } = Select;
   const selectedBranchId = useSelector(
     (state) => state?.branches?.selectedBranchId
@@ -47,19 +47,17 @@ const TransactionCreate = () => {
     dispatch(setSelectedGroup(selectedGroup));
     setStudents(selectedGroup.students || []);
     setIsFormDirty(true);
-    setStudentAmount(
-      selectedGroup.students.find(
-        (student) => student.id === form.getFieldValue("student_id")
-      )?.payment_amount
-    );
   };
 
   const handleSelectStudentChange = (value) => {
     form.setFieldsValue({ student_id: value });
     setIsFormDirty(true);
-    setStudentAmount(
-      students.find((student) => student.id === value)?.payment_amount
-    );
+    form.setFieldsValue({
+      amount: students
+        .find((student) => student.id === value)
+        ?.payment_amount?.toString()
+        .replace(/\B(?=(\d{3})+(?!\d))/g, " "),
+    });
   };
 
   const handleConfirmExit = () => {
@@ -90,7 +88,7 @@ const TransactionCreate = () => {
     const formValues = {
       ...values,
       payment_period_month: Number(values.payment_period_month),
-      amount: studentAmount?.toString(),
+      amount: +values.amount?.split(" ").join(""),
       branch_id: selectedBranchId,
     };
 
@@ -182,19 +180,31 @@ const TransactionCreate = () => {
             </div>
             <p className="messageText">{t("transaction_made_by_student")}</p>
           </div>
-          <Form.Item
-            name="amount"
-            style={{ margin: 0 }}
-            label={t("payment_sum")}
-          >
-            <Input
-              disabled
-              placeholder={studentAmount
-                ?.toString()
-                ?.replace(/\B(?=(\d{3})+(?!\d))/g, " ")}
-              size="large"
-            />
-          </Form.Item>
+          <div style={{ display: "flex", flexDirection: "column", gap: 4 }}>
+            <Form.Item
+              name="amount"
+              style={{ margin: 0 }}
+              label={t("payment_sum")}
+            >
+              <IMaskInput
+                mask={Number}
+                className="ant-input inputData"
+                thousandsSeparator=" "
+                inputMode="numeric"
+                disabled={!isEditable}
+                size="large"
+                onAccept={(e) => form.setFieldValue("amount", e)}
+              />
+            </Form.Item>
+            <div style={{ display: "flex", alignItems: "center", gap: 4 }}>
+              <Checkbox
+                name="is_editable"
+                id="is_editable"
+                onChange={() => setIsEditable(!isEditable)}
+              />
+              <label htmlFor="is_editable">{t("editable")}</label>
+            </div>
+          </div>
           <div
             style={{
               display: "grid",

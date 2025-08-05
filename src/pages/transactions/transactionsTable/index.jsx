@@ -20,7 +20,11 @@ const TransactionTable = (props) => {
           title: t(e.title),
           amount: e.amount?.toString()?.replace(/\B(?=(\d{3})+(?!\d))/g, " "),
         }))}
-        dataSource={props.data}
+        dataSource={props.data?.map((e) => ({
+          ...e,
+          amount: e.amount?.toString()?.replace(/\B(?=(\d{3})+(?!\d))/g, " "),
+          payment_type: t(e.payment_type),
+        }))}
         rowKey="id"
         onRow={(record) => ({
           onClick: () => handleRowClick(record),
