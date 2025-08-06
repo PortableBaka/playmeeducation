@@ -194,7 +194,7 @@ const EmployeeCreate = () => {
           </Form.Item>
 
           <Form.Item
-            name="hire_date"
+            name="birth_date"
             label={t("birth_date")}
             className="inputBox"
             size="large"
@@ -210,7 +210,7 @@ const EmployeeCreate = () => {
           </Form.Item>
 
           <Form.Item
-            name="birth_date"
+            name="hire_date"
             className="inputBox"
             size="large"
             label={t("hiring_date")}
