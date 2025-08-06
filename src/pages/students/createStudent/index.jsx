@@ -237,7 +237,11 @@ const StudentsCreate = () => {
             label={t("payment_amount")}
             rules={[{ required: true, message: t("input_payment_sum") }]}
           >
-            <Input
+            <IMaskInput
+              thousandsSeparator=" "
+              className="ant-input inputData"
+              inputMode="numeric"
+              mask={Number}
               size="large"
               placeholder={t("input_payment_sum")}
               onChange={() => setIsFormDirty(true)}

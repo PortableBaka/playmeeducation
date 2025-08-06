@@ -339,8 +339,8 @@ const StudentsEdit = () => {
             )}
           </div>
           <div className="inputBox">
-            <label htmlFor="username" className="label">
-              {t("login")}
+            <label htmlFor="payment_amount" className="label">
+              {t("payment_amount")}
             </label>
             {status === "loading" ? (
               <Skeleton
@@ -350,17 +350,20 @@ const StudentsEdit = () => {
                 height={40}
               />
             ) : (
-              <Input
+              <IMaskInput
+                mask={Number}
                 size="large"
-                className="input"
+                thousandsSeparator=" "
+                className="ant-input inputData"
+                inputMode="numeric"
                 type="text"
                 id="payment_amount"
                 name="payment_amount"
-                value={editFormData?.payment_amount || ""}
-                onChange={(e) =>
+                value={editFormData?.payment_amount?.toString() || ""}
+                onAccept={(e) =>
                   setEditFormData({
                     ...editFormData,
-                    payment_amount: e.target.value,
+                    payment_amount: e,
                   })
                 }
               />
