@@ -66,7 +66,7 @@ const EditHeader = ({ student, setShowExitModal, handleDelete }) => {
                       type="primary"
                       onClick={(e) => onDeleteClick(e, student?.id)}
                     >
-                      {t("cancel")}
+                      {t("delete")}
                     </Button>
                   </div>
                 </div>
